@@ -1,0 +1,12 @@
+Label
+TileMap
+CollisionShape2D
+CharacterBody2D
+Camera2D
+RayCast2D
+Marker2D
+Node2D
+Area2D
+AnimatedSprite2D
+VisibleOnScreenEnabler2D
+RigidBody2D

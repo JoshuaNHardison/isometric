@@ -1,0 +1,24 @@
+[gd_scene load_steps=3 format=3 uid="uid://cv31qqcd6aamy"]
+
+[ext_resource type="Script" path="res://scripts/cows.gd" id="1_21s6x"]
+[ext_resource type="PackedScene" uid="uid://bewfnje1mnevg" path="res://scenes/cow.tscn" id="1_mmp0a"]
+
+[node name="Cows" type="Node2D"]
+script = ExtResource("1_21s6x")
+
+[node name="Cow" parent="." instance=ExtResource("1_mmp0a")]
+
+[node name="Cow2" parent="." instance=ExtResource("1_mmp0a")]
+position = Vector2(-68, 1287)
+
+[node name="Cow3" parent="." instance=ExtResource("1_mmp0a")]
+position = Vector2(823, -706)
+
+[node name="Cow4" parent="." instance=ExtResource("1_mmp0a")]
+position = Vector2(-1099, -702)
+
+[node name="Cow5" parent="." instance=ExtResource("1_mmp0a")]
+position = Vector2(-1589, 902)
+
+[node name="Cow6" parent="." instance=ExtResource("1_mmp0a")]
+position = Vector2(1510, 483)

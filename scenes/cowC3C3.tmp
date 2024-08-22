@@ -1,0 +1,75 @@
+[gd_scene load_steps=11 format=3 uid="uid://bewfnje1mnevg"]
+
+[ext_resource type="Script" path="res://scripts/Cow.gd" id="1_8t67a"]
+[ext_resource type="Texture2D" uid="uid://nv1gwgw3xe02" path="res://unusedAssets/enemyFlyingAlt_1.png" id="2_iu87s"]
+[ext_resource type="Texture2D" uid="uid://bm5e80it0kfg8" path="res://unusedAssets/enemyFlyingAlt_2.png" id="3_clo3r"]
+[ext_resource type="Texture2D" uid="uid://dvdoq8oabxbkr" path="res://unusedAssets/enemySwimming_1.png" id="4_jocye"]
+[ext_resource type="Texture2D" uid="uid://c7j0ogn5fpkjn" path="res://unusedAssets/enemySwimming_2.png" id="5_ih8b5"]
+[ext_resource type="Texture2D" uid="uid://bfikqgvwomvyb" path="res://unusedAssets/enemyWalking_1.png" id="6_ynyx2"]
+[ext_resource type="Texture2D" uid="uid://bjokmuswv86f2" path="res://unusedAssets/enemyWalking_2.png" id="7_bgfyy"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_hdlxw"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_iu87s")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_clo3r")
+}],
+"loop": true,
+"name": &"fly",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_jocye")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_ih8b5")
+}],
+"loop": true,
+"name": &"swim",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_ynyx2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_bgfyy")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_5gamn"]
+radius = 38.64
+height = 120.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_q11j3"]
+radius = 1000.0
+
+[node name="Cow" type="CharacterBody2D"]
+collision_mask = 0
+script = ExtResource("1_8t67a")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.75, 0.75)
+sprite_frames = SubResource("SpriteFrames_hdlxw")
+animation = &"swim"
+frame = 1
+frame_progress = 0.0402241
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_5gamn")
+
+[node name="herdArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="herdArea"]
+shape = SubResource("CircleShape2D_q11j3")
+
+[connection signal="area_entered" from="herdArea" to="." method="_on_area_2d_area_entered"]
+[connection signal="area_exited" from="herdArea" to="." method="_on_area_2d_area_exited"]

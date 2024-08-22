@@ -1,0 +1,252 @@
+[gd_scene load_steps=37 format=3 uid="uid://vh1nle6y8xgp"]
+
+[ext_resource type="Script" path="res://scripts/crow.gd" id="1_3oxw0"]
+[ext_resource type="Texture2D" uid="uid://dami7imxtk2iq" path="res://decorations/crow_looking.png" id="1_7aq4l"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tsgv3"]
+size = Vector2(2, 2)
+
+[sub_resource type="AtlasTexture" id="92"]
+atlas = ExtResource("1_7aq4l")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="93"]
+atlas = ExtResource("1_7aq4l")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="94"]
+atlas = ExtResource("1_7aq4l")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="95"]
+atlas = ExtResource("1_7aq4l")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="96"]
+atlas = ExtResource("1_7aq4l")
+region = Rect2(256, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="97"]
+atlas = ExtResource("1_7aq4l")
+region = Rect2(320, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="98"]
+atlas = ExtResource("1_7aq4l")
+region = Rect2(384, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="99"]
+atlas = ExtResource("1_7aq4l")
+region = Rect2(448, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="100"]
+atlas = ExtResource("1_7aq4l")
+region = Rect2(512, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="101"]
+atlas = ExtResource("1_7aq4l")
+region = Rect2(576, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="102"]
+atlas = ExtResource("1_7aq4l")
+region = Rect2(640, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="103"]
+atlas = ExtResource("1_7aq4l")
+region = Rect2(704, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="104"]
+atlas = ExtResource("1_7aq4l")
+region = Rect2(768, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="105"]
+atlas = ExtResource("1_7aq4l")
+region = Rect2(832, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="106"]
+atlas = ExtResource("1_7aq4l")
+region = Rect2(896, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="107"]
+atlas = ExtResource("1_7aq4l")
+region = Rect2(960, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="108"]
+atlas = ExtResource("1_7aq4l")
+region = Rect2(0, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="109"]
+atlas = ExtResource("1_7aq4l")
+region = Rect2(64, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="110"]
+atlas = ExtResource("1_7aq4l")
+region = Rect2(128, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="111"]
+atlas = ExtResource("1_7aq4l")
+region = Rect2(192, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="112"]
+atlas = ExtResource("1_7aq4l")
+region = Rect2(256, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="113"]
+atlas = ExtResource("1_7aq4l")
+region = Rect2(320, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="114"]
+atlas = ExtResource("1_7aq4l")
+region = Rect2(384, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="115"]
+atlas = ExtResource("1_7aq4l")
+region = Rect2(448, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="116"]
+atlas = ExtResource("1_7aq4l")
+region = Rect2(512, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="117"]
+atlas = ExtResource("1_7aq4l")
+region = Rect2(576, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="118"]
+atlas = ExtResource("1_7aq4l")
+region = Rect2(640, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="119"]
+atlas = ExtResource("1_7aq4l")
+region = Rect2(704, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="120"]
+atlas = ExtResource("1_7aq4l")
+region = Rect2(768, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="121"]
+atlas = ExtResource("1_7aq4l")
+region = Rect2(832, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="122"]
+atlas = ExtResource("1_7aq4l")
+region = Rect2(896, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="123"]
+atlas = ExtResource("1_7aq4l")
+region = Rect2(960, 64, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_64veu"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("92")
+}, {
+"duration": 1.0,
+"texture": SubResource("93")
+}, {
+"duration": 1.0,
+"texture": SubResource("94")
+}, {
+"duration": 1.0,
+"texture": SubResource("95")
+}, {
+"duration": 1.0,
+"texture": SubResource("96")
+}, {
+"duration": 1.0,
+"texture": SubResource("97")
+}, {
+"duration": 1.0,
+"texture": SubResource("98")
+}, {
+"duration": 1.0,
+"texture": SubResource("99")
+}, {
+"duration": 1.0,
+"texture": SubResource("100")
+}, {
+"duration": 1.0,
+"texture": SubResource("101")
+}, {
+"duration": 1.0,
+"texture": SubResource("102")
+}, {
+"duration": 1.0,
+"texture": SubResource("103")
+}, {
+"duration": 1.0,
+"texture": SubResource("104")
+}, {
+"duration": 1.0,
+"texture": SubResource("105")
+}, {
+"duration": 1.0,
+"texture": SubResource("106")
+}, {
+"duration": 1.0,
+"texture": SubResource("107")
+}, {
+"duration": 1.0,
+"texture": SubResource("108")
+}, {
+"duration": 1.0,
+"texture": SubResource("109")
+}, {
+"duration": 1.0,
+"texture": SubResource("110")
+}, {
+"duration": 1.0,
+"texture": SubResource("111")
+}, {
+"duration": 1.0,
+"texture": SubResource("112")
+}, {
+"duration": 1.0,
+"texture": SubResource("113")
+}, {
+"duration": 1.0,
+"texture": SubResource("114")
+}, {
+"duration": 1.0,
+"texture": SubResource("115")
+}, {
+"duration": 1.0,
+"texture": SubResource("116")
+}, {
+"duration": 1.0,
+"texture": SubResource("117")
+}, {
+"duration": 1.0,
+"texture": SubResource("118")
+}, {
+"duration": 1.0,
+"texture": SubResource("119")
+}, {
+"duration": 1.0,
+"texture": SubResource("120")
+}, {
+"duration": 1.0,
+"texture": SubResource("121")
+}, {
+"duration": 1.0,
+"texture": SubResource("122")
+}, {
+"duration": 1.0,
+"texture": SubResource("123")
+}],
+"loop": true,
+"name": &"looking",
+"speed": 16.0
+}]
+
+[node name="Crow" type="RigidBody2D"]
+script = ExtResource("1_3oxw0")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_tsgv3")
+
+[node name="CrowLook" type="AnimatedSprite2D" parent="."]
+position = Vector2(-168, -145)
+sprite_frames = SubResource("SpriteFrames_64veu")
+animation = &"looking"
+autoplay = "looking"
+flip_h = true

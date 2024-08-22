@@ -1,0 +1,7 @@
+res://scenes/cow.tscn
+res://tileset/tileset.tres
+res://levels/level_0.tscn
+res://scenes/goblin.tscn
+res://levels/dungeon.tscn
+res://scenes/dog.tscn
+res://scripts/Cow.gd

@@ -114,6 +114,7 @@ func _physics_process(delta: float):
 func _on_dog_bark():
 	print("The dog barked! React accordingly.")
 	var closest_cows = get_closest_cows(dog, 1)
+	#add a distance check for closest cow
 	if closest_cows.size() > 0:
 		print("Closest cow: ", closest_cows[0])
 		closest_cows[0].speed += 200

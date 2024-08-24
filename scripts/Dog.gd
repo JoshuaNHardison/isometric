@@ -30,6 +30,14 @@ func _physics_process(delta):
 func _input(event):
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 		emit_signal("bark")  # Step 3: Emit the bark signal
+		$Label.text = "woof!"
+		await get_tree().create_timer(1.0).timeout # waits for 1 second
+		$Label.text = ""
+		# Do something afterwards
+
+func _on_timer_timeout() -> void:
+	queue_free()
+
 
 
 #func connect_to_cow(cow_node):

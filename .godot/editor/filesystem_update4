@@ -4,3 +4,5 @@ res://scenes/cow.tscn
 res://scenes/goblin.tscn
 res://levels/dungeon.tscn
 res://scenes/dog.tscn
+res://scripts/Cow.gd
+res://scripts/Dog.gd

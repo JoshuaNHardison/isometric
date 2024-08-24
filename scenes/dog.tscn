@@ -1894,3 +1894,9 @@ position = Vector2(0, -17)
 scale = Vector2(0.4, 0.4)
 sprite_frames = SubResource("SpriteFrames_i781o")
 animation = &"front_idle"
+
+[node name="Timer" type="Timer" parent="."]
+
+[node name="Label" type="Label" parent="."]
+offset_right = 40.0
+offset_bottom = 23.0

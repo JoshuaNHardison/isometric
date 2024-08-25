@@ -3,6 +3,7 @@ extends CharacterBody2D
 class_name player
 
 signal hit
+signal lasso
 
 const MOTION_SPEED = 300 # Pixels/second.
 
@@ -58,6 +59,15 @@ func update_animation(anim_set):
 
 	$Sprite2D.play(anim_directions[anim_set][slice_dir][0])
 	$Sprite2D.flip_h = anim_directions[anim_set][slice_dir][1]
+
+
+func _input(event: InputEvent):
+	if event is InputEventKey and event.keycode == KEY_C and event.pressed:
+		emit_signal("lasso") 
+		$Label.text = "lasso"
+		await get_tree().create_timer(1.0).timeout
+		$Label.text = ""
+
 
 
 func _on_area_2d_area_entered(area):

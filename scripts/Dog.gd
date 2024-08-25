@@ -10,9 +10,7 @@ var cow_node
 
 
 func _ready():
-	#cow_node = cow_scene.instance()
 	add_child(cow_node)
-	#connect_to_cow(cow_node)
 
 
 func _physics_process(delta):

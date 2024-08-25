@@ -85,3 +85,4 @@ y_sort_enabled = true
 position = Vector2(497, 235)
 
 [connection signal="bark" from="Dog" to="Cow" method="_on_dog_bark"]
+[connection signal="lasso" from="Goblin" to="Cow" method="_on_lasso"]

@@ -6,3 +6,4 @@ res://levels/dungeon.tscn
 res://scenes/dog.tscn
 res://scripts/Cow.gd
 res://scripts/Dog.gd
+res://scripts/goblin.gd

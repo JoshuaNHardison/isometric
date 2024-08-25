@@ -110,6 +110,17 @@ func _physics_process(delta: float):
 		#print("lost")
 		behavior_wander(delta)
 
+#should i connect the lasso signal to the "teleport" function? 
+func _on_lasso():
+	print("the player lasso'd")
+	var closest_cow = get_closest_cows(dog, 1)
+	if closest_cow.size() > 0:
+		print("Closest cow: ", closest_cow[0])
+		var cow_position = closest_cow[0].position
+		var boids_center = center_of_mass()
+		var direction = (boids_center - self.global_position).normalized()
+		self.position += direction * speed 
+
 
 func _on_dog_bark():
 	print("The dog barked! React accordingly.")
@@ -261,6 +272,22 @@ func behavior_cohesion(delta):
 		# Steer towards the center of mass
 		direction = (center_of_mass - global_position).normalized()
 	return direction * speed * cohesion_strength
+
+
+func center_of_mass():
+	populate_all_boids()
+	var boids_in_range = []
+	var center_of_mass = Vector2()
+	for boid in all_boids:
+			if boid != self and (boid.global_position - global_position).length() <= follow_distance:
+				boids_in_range.append(boid)
+	if boids_in_range.size() > 0:
+		for boid in boids_in_range:
+			center_of_mass += boid.global_position
+		
+		center_of_mass /= boids_in_range.size()
+		return center_of_mass
+	return player.position + 10
 
 
 func behavior_dog_push(delta):

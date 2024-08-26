@@ -13,12 +13,12 @@ class_name Cow
 @export var push_strength = 2
 @export var player_push_strength = 2
 @export var dog_push_strength = 1
-@export var separation_radius = 50
-@export var separation_strength = 1
+@export var separation_radius = 80
+@export var separation_strength = 10
 @export var alignment_radius = 200
-@export var alignment_strength = 3
+@export var alignment_strength = 30
 @export var cohesion_radius = 200
-@export var cohesion_strength = 3
+@export var cohesion_strength = 1
 @export var goal_seeking_strength = 2
 @export var risk_aversion_strength = 2
 #@export var stop_distance: float = 3.0 # Distance at which cow stops moving away

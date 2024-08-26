@@ -39,12 +39,67 @@ motion_mode = 1
 
 [node name="Cow3" parent="." groups=["boids"] instance=ExtResource("7_nnm0e")]
 y_sort_enabled = true
-position = Vector2(433, 853)
+position = Vector2(437, 914)
 motion_mode = 1
 
 [node name="Cow4" parent="." groups=["boids"] instance=ExtResource("7_nnm0e")]
 y_sort_enabled = true
 position = Vector2(584, 951)
+motion_mode = 1
+
+[node name="Cow5" parent="." groups=["boids"] instance=ExtResource("7_nnm0e")]
+y_sort_enabled = true
+position = Vector2(1347, 766)
+motion_mode = 1
+
+[node name="Cow6" parent="." groups=["boids"] instance=ExtResource("7_nnm0e")]
+y_sort_enabled = true
+position = Vector2(848, 616)
+motion_mode = 1
+
+[node name="Cow7" parent="." groups=["boids"] instance=ExtResource("7_nnm0e")]
+y_sort_enabled = true
+position = Vector2(1154, 588)
+motion_mode = 1
+
+[node name="Cow8" parent="." groups=["boids"] instance=ExtResource("7_nnm0e")]
+y_sort_enabled = true
+position = Vector2(1005, 605)
+motion_mode = 1
+
+[node name="Cow9" parent="." groups=["boids"] instance=ExtResource("7_nnm0e")]
+y_sort_enabled = true
+position = Vector2(1282, 669)
+motion_mode = 1
+
+[node name="Cow10" parent="." groups=["boids"] instance=ExtResource("7_nnm0e")]
+y_sort_enabled = true
+position = Vector2(930, 698)
+motion_mode = 1
+
+[node name="Cow11" parent="." groups=["boids"] instance=ExtResource("7_nnm0e")]
+y_sort_enabled = true
+position = Vector2(1015, 787)
+motion_mode = 1
+
+[node name="Cow12" parent="." groups=["boids"] instance=ExtResource("7_nnm0e")]
+y_sort_enabled = true
+position = Vector2(1101, 694)
+motion_mode = 1
+
+[node name="Cow13" parent="." groups=["boids"] instance=ExtResource("7_nnm0e")]
+y_sort_enabled = true
+position = Vector2(434, 815)
+motion_mode = 1
+
+[node name="Cow14" parent="." groups=["boids"] instance=ExtResource("7_nnm0e")]
+y_sort_enabled = true
+position = Vector2(595, 844)
+motion_mode = 1
+
+[node name="Cow15" parent="." groups=["boids"] instance=ExtResource("7_nnm0e")]
+y_sort_enabled = true
+position = Vector2(392, 1126)
 motion_mode = 1
 
 [node name="EnemyPatrolPath" type="Node2D" parent="."]
@@ -83,6 +138,11 @@ position = Vector2(1091, 750)
 visible = false
 y_sort_enabled = true
 position = Vector2(497, 235)
+
+[node name="Cow16" parent="." groups=["boids"] instance=ExtResource("7_nnm0e")]
+y_sort_enabled = true
+position = Vector2(577, 1090)
+motion_mode = 1
 
 [connection signal="bark" from="Dog" to="Cow" method="_on_dog_bark"]
 [connection signal="lasso" from="Goblin" to="Cow" method="_on_lasso"]

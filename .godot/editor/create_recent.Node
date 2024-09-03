@@ -1,6 +1,6 @@
+TileMap
 Label
 Timer
-TileMap
 CollisionShape2D
 CharacterBody2D
 Camera2D

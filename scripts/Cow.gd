@@ -25,6 +25,7 @@ class_name Cow
 
 
 @onready var anim: AnimatedSprite2D = $AnimatedSprite2D
+@onready var raycast = $RayCast2D
 @onready var collisionBox: CollisionShape2D = $CollisionShape2D
 @onready var herdArea: Area2D = $herdArea
 @onready var player = $"../Goblin"
@@ -160,6 +161,7 @@ func herd_behavior(delta):
 		velocity = velocity.lerp(velocity, 0.05)
 		
 		move_and_slide()
+		raycast.rotation = velocity.angle()
 		#maybe wait after determining the velocity until something happens?
 		#goals for cows include water, grass, stay away from player
 

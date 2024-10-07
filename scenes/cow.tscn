@@ -56,7 +56,6 @@ radius = 1000.0
 script = ExtResource("1_8t67a")
 
 [node name="RayCast2D" type="RayCast2D" parent="."]
-visible = false
 target_position = Vector2(800, 0)
 script = ExtResource("8_c103j")
 

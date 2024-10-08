@@ -28,87 +28,103 @@ layer_0/y_sort_enabled = true
 layer_0/tile_data = PackedInt32Array(1179672, 2, 0, 1179673, 2, 0, 1179674, 2, 0, 1114138, 2, 0, 1048602, 2, 0, 983066, 2, 0, 917530, 2, 0, 851994, 2, 0, 851995, 2, 0, 786459, 2, 0, 786460, 2, 0, 786461, 2, 0, 786462, 2, 0, 786463, 2, 0, 720924, 2, 0, 720925, 2, 0, 720926, 2, 0, 720927, 2, 0, 655391, 2, 0, 589855, 2, 0, 589856, 2, 0, 524320, 2, 0, 524321, 2, 0, 458785, 2, 0, 393249, 2, 0, 458781, 2, 0, 458780, 2, 0, 458779, 2, 0, 524315, 2, 0, 327714, 2, 0, 262178, 2, 0, 262179, 2, 0, 196643, 2, 0, 131107, 2, 0, 65571, 2, 0, 35, 2, 0, -65501, 2, 0, -131038, 2, 0, -196574, 2, 0, -131037, 2, 0, -196573, 2, 0, -262109, 2, 0, -327645, 2, 0, -393182, 2, 0, -458718, 2, 0, -524254, 2, 0, -589790, 2, 0, -655327, 2, 0, -720863, 2, 0, -655326, 2, 0, 131102, 2, 0, 65566, 2, 0, 65565, 2, 0, 65564, 2, 0, -65515, 2, 0, -65514, 2, 0, -65513, 2, 0, 23, 2, 0, -65522, 2, 0, -65521, 2, 0, -131057, 2, 0, 458764, 2, 0, 458765, 2, 0, 458766, 2, 0, 393230, 2, 0, 851984, 2, 0, 851985, 2, 0, 917521, 2, 0, 655381, 2, 0, 327699, 2, 0, 196627, 2, 0, 262163, 2, 0, 262162, 2, 0, 327698, 2, 0, 1179671, 2, 0, 1179670, 2, 0, 1179669, 2, 0, 1179668, 2, 0, 1179667, 2, 0, 1179666, 2, 0, 1114130, 2, 0, 1245202, 2, 0, 1310738, 2, 0, 1376274, 2, 0, 1441810, 2, 0, 1507346, 2, 0, 1572882, 2, 0, 1638418, 2, 0, 1703954, 2, 0, 1769490, 2, 0, 1835026, 2, 0, 1900562, 2, 0, 1966098, 2, 0, 2031634, 2, 0, 2097170, 2, 0, 2162706, 2, 0, 2228242, 2, 0, 2293778, 2, 0, 2359314, 2, 0, 2424850, 2, 0, 2490386, 2, 0, 2752529, 2, 0, 2752530, 2, 0, 2686994, 2, 0, 2621458, 2, 0, 2555922, 2, 0, 2752528, 2, 0, 2752527, 2, 0, 2752526, 2, 0, 2752525, 2, 0, 2752524, 2, 0, 2752523, 2, 0, 2752522, 2, 0, -786400, 2, 0, -786399, 2, 0, -851937, 2, 0, -851936, 2, 0, -917474, 2, 0, -917473, 2, 0, -983011, 2, 0, -983010, 2, 0, -1048548, 2, 0, -1048547, 2, 0, -1114085, 2, 0, -1114084, 2, 0, -1179622, 2, 0, -1179621, 2, 0, -1179623, 2, 0, -1179624, 2, 0, -1245163, 2, 0, -1245162, 2, 0, -1245161, 2, 0, -1245160, 2, 0, -1245159, 2, 0, -1245164, 2, 0, -1245165, 2, 0, -1245166, 2, 0, -1310702, 2, 0, -1376238, 2, 0, -1441774, 2, 0, -1507310, 2, 0, -1572846, 2, 0, -1638382, 2, 0, 851980, 2, 0, 851979, 2, 0, 917515, 2, 0, 655370, 2, 0, 589834, 2, 0, 1441803, 2, 0, 1507339, 2, 0, 1572875, 2, 0, 1572876, 2, 0, 1507340, 2, 0, 1441804, 2, 0, 2752521, 2, 0, 2752520, 2, 0, 2752519, 2, 0, 2752518, 2, 0, 2752517, 2, 0, 2686981, 2, 0, 2621445, 2, 0, 2555909, 2, 0, 2490373, 2, 0, 2424837, 2, 0, 2359301, 2, 0, 2293765, 2, 0, 2228229, 2, 0, 2162693, 2, 0, 2097157, 2, 0, 2031621, 2, 0, 1966085, 2, 0, 851972, 2, 0, 786436, 2, 0, 786435, 2, 0, 1179645, 2, 0, 1179646, 2, 0, 1179647, 2, 0, 1507331, 2, 0, 1507330, 2, 0, 1441794, 2, 0, 1441795, 2, 0, 1245191, 2, 0, 1966092, 2, 0, 1966093, 2, 0, 2031629, 2, 0, 2228234, 2, 0, 2293770, 2, 0, 2359306, 2, 0, 2359307, 2, 0, -851946, 2, 0, -917482, 2, 0, -917481, 2, 0, -524261, 2, 0, -458725, 2, 0, -458724, 2, 0, -524260, 2, 0, -524259, 2, 0, -1048563, 2, 0, -983027, 2, 0, -983026, 2, 0, -917490, 2, 0, -1703918, 2, 0, -1769454, 2, 0, -1834990, 2, 0, -1900526, 2, 0, -1966062, 2, 0, -2031598, 2, 0, -2097134, 2, 0, -2162670, 2, 0, -2228206, 2, 0, -2293742, 2, 0, -2359278, 2, 0, -2424814, 2, 0, -2490350, 2, 0, -2555886, 2, 0, -2555887, 2, 0, -2555888, 2, 0, -2555889, 2, 0, -2555890, 2, 0, -2555891, 2, 0, -2555892, 2, 0, -2555893, 2, 0, -2555894, 2, 0, -2555895, 2, 0, -2555896, 2, 0, -2555897, 2, 0, -2555898, 2, 0, -2555899, 2, 0, -2555900, 2, 0, -2555901, 2, 0, -2555902, 2, 0, -2555904, 2, 0, -2555903, 2, 0, -2490369, 2, 0, -2490370, 2, 0, -1900547, 2, 0, -1900546, 2, 0, -1900545, 2, 0, -1966080, 2, 0, -1966079, 2, 0, -1900543, 2, 0, -1769471, 2, 0, -1703935, 2, 0, -1638399, 2, 0, -1835007, 2, 0, -1572863, 2, 0, -1507327, 2, 0, -1441791, 2, 0, -786429, 2, 0, -786430, 2, 0, -720894, 2, 0, -655358, 2, 0, -655359, 2, 0, -196604, 2, 0, -196603, 2, 0, -131067, 2, 0, -131066, 2, 0, -131065, 2, 0, -65529, 2, 0, -65528, 2, 0, -65527, 2, 0, 327683, 2, 0, -131073, 2, 0, 524275, 2, 0, 458739, 2, 0, 393203, 2, 0, 327667, 2, 0, 327666, 2, 0, 262131, 2, 0, 262130, 2, 0, 196595, 2, 0, 196594, 2, 0, 131058, 2, 0, 65522, 2, 0, -14, 2, 0, -65550, 2, 0, -131086, 2, 0, -196622, 2, 0, -262158, 2, 0, -327694, 2, 0, -393230, 2, 0, -458766, 2, 0, -524302, 2, 0, -589838, 2, 0, -655374, 2, 0, -720910, 2, 0, -786446, 2, 0, -851982, 2, 0, -851981, 2, 0, -917517, 2, 0, -983053, 2, 0, -1048589, 2, 0, -1114125, 2, 0, -1114124, 2, 0, -1179660, 2, 0, -1245196, 2, 0, -1245195, 2, 0, -1310731, 2, 0, -1376267, 2, 0, -1376266, 2, 0, -1441802, 2, 0, -1507338, 2, 0, -1507337, 2, 0, -1572873, 2, 0, -1638409, 2, 0, -1638408, 2, 0, -1703944, 2, 0, -1703943, 2, 0, -1769479, 2, 0, -1769478, 2, 0, -1835014, 2, 0, -1835013, 2, 0, -1835012, 2, 0, -1835011, 2, 0, 524274, 2, 0, 589811, 2, 0, 655347, 2, 0, 655348, 2, 0, 720884, 2, 0, 786420, 2, 0, 851956, 2, 0, 851957, 2, 0, 917493, 2, 0, 983029, 2, 0, 1048565, 2, 0, 1048566, 2, 0, 1114102, 2, 0, 1179638, 2, 0, 1179639, 2, 0, 1245175, 2, 0, 1245176, 2, 0, 1310712, 2, 0, 1310713, 2, 0, 1376249, 2, 0, 1376250, 2, 0, 1441786, 2, 0, 1441787, 2, 0, 1507323, 2, 0, 1507324, 2, 0, 1507325, 2, 0, 1572861, 2, 0, 1572862, 2, 0, 1638398, 2, 0, 1638399, 2, 0, 1703935, 2, 0, 1638400, 2, 0, 1703936, 2, 0, 1703937, 2, 0, 1769473, 2, 0, 1769474, 2, 0, 1835010, 2, 0, 1835011, 2, 0, -131082, 2, 0, -65546, 2, 0, -65545, 2, 0, -65544, 2, 0, -65543, 2, 0, -7, 2, 0, 65529, 2, 0)
 
 [node name="Cow" parent="Walls" groups=["boids"] instance=ExtResource("7_nnm0e")]
+visible = false
 y_sort_enabled = true
-position = Vector2(1258, 801)
+position = Vector2(1682, 817)
 motion_mode = 1
 
 [node name="Cow2" parent="Walls" groups=["boids"] instance=ExtResource("7_nnm0e")]
+visible = false
 y_sort_enabled = true
-position = Vector2(500, 1045)
+position = Vector2(763, 834)
 motion_mode = 1
 
 [node name="Cow3" parent="Walls" groups=["boids"] instance=ExtResource("7_nnm0e")]
+visible = false
 y_sort_enabled = true
-position = Vector2(501, 946)
+position = Vector2(925, 962)
 motion_mode = 1
 
 [node name="Cow4" parent="Walls" groups=["boids"] instance=ExtResource("7_nnm0e")]
+visible = false
 y_sort_enabled = true
-position = Vector2(648, 983)
+position = Vector2(1055, 987)
 motion_mode = 1
 
 [node name="Cow5" parent="Walls" groups=["boids"] instance=ExtResource("7_nnm0e")]
+visible = false
 y_sort_enabled = true
-position = Vector2(1411, 798)
+position = Vector2(1835, 814)
 motion_mode = 1
 
 [node name="Cow6" parent="Walls" groups=["boids"] instance=ExtResource("7_nnm0e")]
+visible = false
 y_sort_enabled = true
-position = Vector2(870, 587)
+position = Vector2(1294, 603)
 motion_mode = 1
 
 [node name="Cow7" parent="Walls" groups=["boids"] instance=ExtResource("7_nnm0e")]
+visible = false
 y_sort_enabled = true
-position = Vector2(1241, 601)
+position = Vector2(1669, 594)
 motion_mode = 1
 
 [node name="Cow8" parent="Walls" groups=["boids"] instance=ExtResource("7_nnm0e")]
+visible = false
 y_sort_enabled = true
-position = Vector2(1069, 582)
+position = Vector2(1495, 517)
 motion_mode = 1
 
 [node name="Cow9" parent="Walls" groups=["boids"] instance=ExtResource("7_nnm0e")]
+visible = false
 y_sort_enabled = true
-position = Vector2(1346, 701)
+position = Vector2(1770, 717)
 motion_mode = 1
 
 [node name="Cow10" parent="Walls" groups=["boids"] instance=ExtResource("7_nnm0e")]
+visible = false
 y_sort_enabled = true
-position = Vector2(846, 497)
+position = Vector2(1270, 513)
 motion_mode = 1
 
 [node name="Cow11" parent="Walls" groups=["boids"] instance=ExtResource("7_nnm0e")]
+visible = false
 y_sort_enabled = true
-position = Vector2(1041, 893)
+position = Vector2(1465, 909)
 motion_mode = 1
 
 [node name="Cow12" parent="Walls" groups=["boids"] instance=ExtResource("7_nnm0e")]
 y_sort_enabled = true
-position = Vector2(1413, 487)
+position = Vector2(1837, 503)
 motion_mode = 1
 
 [node name="Cow13" parent="Walls" groups=["boids"] instance=ExtResource("7_nnm0e")]
 y_sort_enabled = true
-position = Vector2(498, 847)
+position = Vector2(1284, 782)
 motion_mode = 1
 
 [node name="Cow14" parent="Walls" groups=["boids"] instance=ExtResource("7_nnm0e")]
 y_sort_enabled = true
-position = Vector2(659, 876)
+position = Vector2(1083, 892)
 motion_mode = 1
 
 [node name="Cow15" parent="Walls" groups=["boids"] instance=ExtResource("7_nnm0e")]
 y_sort_enabled = true
-position = Vector2(456, 1158)
+position = Vector2(1226, 932)
+motion_mode = 1
+
+[node name="Cow16" parent="Walls" groups=["boids"] instance=ExtResource("7_nnm0e")]
+y_sort_enabled = true
+position = Vector2(678, 734)
 motion_mode = 1
 
 [node name="Goblin" parent="Walls" instance=ExtResource("3_goh56")]
 y_sort_enabled = true
-position = Vector2(1784, 1183)
+position = Vector2(1032, 1159)
 
 [node name="Dog" parent="Walls" groups=["risks"] instance=ExtResource("3_3apsh")]
 y_sort_enabled = true
-position = Vector2(1248, 987)
+position = Vector2(830, 1176)
 
 [node name="EnemyPatrolPath" type="Node2D" parent="."]
 visible = false
@@ -145,11 +161,6 @@ position = Vector2(1091, 750)
 [node name="coin_pile" parent="." groups=["goals"] instance=ExtResource("7_87dpn")]
 y_sort_enabled = true
 position = Vector2(-1675, 1660)
-
-[node name="Cow16" parent="." groups=["boids"] instance=ExtResource("7_nnm0e")]
-y_sort_enabled = true
-position = Vector2(577, 1090)
-motion_mode = 1
 
 [connection signal="lasso" from="Walls/Goblin" to="Walls/Cow" method="_on_lasso"]
 [connection signal="bark" from="Walls/Dog" to="Walls/Cow" method="_on_dog_bark"]

@@ -9,18 +9,19 @@ class_name Cow
 @export var random_patrol_range: float = 600.0  # Range for generating random patrol points
 @export var follow_distance: float = 800.0  # Distance to start following
 @export var avoid_distance: float = 500.0  # Distance to start avoiding
-@export var boids_distance: float = 300
+@export var boids_distance: float = 500.0
 @export var push_strength = 2
 @export var player_push_strength = 2
 @export var dog_push_strength = 1
 @export var separation_radius = 80
 @export var separation_strength = 10
-@export var alignment_radius = 200
+@export var alignment_radius = 1000
 @export var alignment_strength = 30
 @export var cohesion_radius = 200
-@export var cohesion_strength = 1
+@export var cohesion_strength = 2
 @export var goal_seeking_strength = 2
 @export var risk_aversion_strength = 2
+@export var max_speed = 100.0
 #@export var stop_distance: float = 3.0 # Distance at which cow stops moving away
 
 
@@ -105,6 +106,7 @@ func _physics_process(delta: float):
 	timer = Time.get_ticks_msec()
 	if !lost_cow:
 		$Label.text = var_to_str(velocity.length())
+		$Label.text = var_to_str(lost_cow)
 		#print("not lost")
 		herd_behavior(delta)
 	elif lost_cow:
@@ -133,6 +135,52 @@ func _on_dog_bark():
 	else:
 		print("No cows found.")
 
+func behavior_flock(delta):
+	var alignment_weight = 1.0
+	var cohesion_weight = 1.0
+	var separation_weight = 1.5
+	var perception_radius = 100.0  # Adjust based on your needs
+
+	var alignment = Vector2.ZERO
+	var cohesion = Vector2.ZERO
+	var separation = Vector2.ZERO
+	var total_neighbors = 0
+
+	for cow in all_boids:  # Iterate through the populated list
+		if cow != self:  # Avoid self
+			var distance = position.distance_to(cow.position)
+			if distance < perception_radius:
+				total_neighbors += 1
+				
+				# Alignment
+				alignment += cow.velocity
+				
+				# Cohesion
+				cohesion += cow.position
+				
+				# Separation
+				var diff = position - cow.position
+				diff /= distance  # Weight by distance
+				separation += diff
+
+	if total_neighbors > 0:
+		# Average the vectors
+		alignment /= total_neighbors
+		alignment = alignment.normalized() * max_speed  # Set to max speed
+		alignment = (alignment - velocity) * alignment_weight  # Steering force
+		
+		cohesion /= total_neighbors
+		cohesion = (cohesion - position).normalized() * max_speed  # Set to max speed
+		cohesion = (cohesion - velocity) * cohesion_weight  # Steering force
+		
+		separation = (separation / total_neighbors).normalized() * max_speed
+		separation = (separation - velocity) * separation_weight  # Steering force
+		
+		# Combine the forces
+		var flocking_velocity = alignment + cohesion + separation
+		return flocking_velocity
+	else:
+		return Vector2.ZERO  # No neighbors, return zero vector
 
 func herd_behavior(delta):
 	if player:
@@ -152,13 +200,17 @@ func herd_behavior(delta):
 		var goal_seeking = behavior_goal_seeking(delta)
 		var risk_aversion = behavior_risk_aversion(delta)
 		var smooth_factor = 0.1
-		var max_speed = 100  # Adjust this to a suitable value
-		velocity = (player_push + dog_push + separation + alignment + cohesion + goal_seeking + risk_aversion + wander)
+		var target_velocity = (player_push + dog_push + separation + alignment + cohesion + goal_seeking + risk_aversion + wander)
 		#velocity = push_pull + separation 
-		if velocity.length() > 0:
+		#if velocity.length() > 0:
+			#velocity = velocity.normalized() * max_speed
+		if target_velocity.length() > max_speed:
+			target_velocity = target_velocity.normalized() * max_speed
+		velocity = velocity.lerp(target_velocity, smooth_factor)
+		if velocity.length() > max_speed:
 			velocity = velocity.normalized() * max_speed
 		
-		velocity = velocity.lerp(velocity, 0.05)
+		#velocity = velocity.lerp(velocity, 0.05)
 		
 		move_and_slide()
 		raycast.rotation = velocity.angle()
@@ -317,6 +369,9 @@ func behavior_player_push(delta):
 		velocity = -direction.normalized() * speed * player_push_strength
 		return velocity
 	else:
+		var slow_factor = (distance_to_player - avoid_distance) / avoid_distance
+		slow_factor = clamp(slow_factor, 0, 1)  # Ensure it's between 0 and 1
+		velocity = direction * speed * (1 - slow_factor)  # Slower speed when farther away
 		return velocity
 
 

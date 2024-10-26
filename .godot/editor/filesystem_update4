@@ -1,7 +1,6 @@
 res://levels/level_0.tscn
 res://tileset/tileset.tres
-res://Cow1.gd
 res://scenes/cow.tscn
-res://scripts/Cow.gd
 res://scenes/goblin.tscn
 res://levels/dungeon.tscn
+res://scripts/Cow.gd

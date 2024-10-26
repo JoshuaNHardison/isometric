@@ -3,10 +3,7 @@ extends CharacterBody2D
 class_name Cow
 
 @export var speed: float = 20
-@export var patrol_path: Array[Marker2D] = []
-@export var patrol_wait_time = 1.0
 @export var lost_cow: bool = false
-@export var random_patrol_range: float = 600.0  # Range for generating random patrol points
 @export var follow_distance: float = 800.0  # Distance to start following
 @export var avoid_distance: float = 500.0  # Distance to start avoiding
 @export var boids_distance: float = 500.0
@@ -35,6 +32,7 @@ class_name Cow
 
 
 var all_cows = []
+var all_boids = []
 var closest_cows = []
 var timer = 0.0
 var avoidance_direction = Vector2.ZERO
@@ -43,9 +41,7 @@ var dog_position
 var target_position
 var distance_to_player
 var distance_to_dog
-var all_boids = []
-var distance_moved = 0.0
-var recalculation_distance = 50.0  # Distance after which to recalculate behavior
+
 
 
 #signal on each cow and the player finds all cows in yelling radius and the cow emits a signal "cow.emitsignal signal could be player_yelled_at_cow
@@ -75,7 +71,6 @@ func populate_local_boids(current_cow: Node2D, num_neighbors: int, max_distance:
 func get_closest_cows(reference_node: Node2D, num_cows: int, max_distance: int) -> Array:
 	var distances = []
 	var reference_node_position = reference_node.position
-	closest_cows.clear()
 	
 	# Loop through all cows, but ignore the reference node (current cow itself)
 	for cow in all_cows:
@@ -88,7 +83,6 @@ func get_closest_cows(reference_node: Node2D, num_cows: int, max_distance: int) 
 	distances.sort_custom(func(a, b): return a['distance'] < b['distance'])
 	
 	# Collect the closest cows, limiting to the number requested
-	var closest_cows = []
 	for i in range(min(num_cows, distances.size())):
 		closest_cows.append(distances[i]['cow'])
 	
@@ -120,30 +114,30 @@ func _physics_process(delta: float):
 		$Label.text = var_to_str(velocity.length())
 		herd_behavior(delta)
 	elif lost_cow:
-		#print("lost")
-		behavior_wander(delta)
+		print("lost")
+		#behavior_wander(delta)
 
 #should i connect the lasso signal to the "teleport" function? 
-func _on_lasso():
-	print("the player lasso'd")
-	var closest_cow = get_closest_cows(dog, 1, 200)
-	if closest_cow.size() > 0:
-		print("Closest cow: ", closest_cow[0])
-		var cow_position = closest_cow[0].position
-		var boids_center = center_of_mass()
-		var direction = (boids_center - self.global_position).normalized()
-		closest_cow[0].position += direction * speed 
-
-
-func _on_dog_bark():
-	print("The dog barked! React accordingly.")
-	var closest_cows = get_closest_cows(dog, 1, 200)
-	#add a distance check for closest cow
-	if closest_cows.size() > 0:
-		print("Closest cow: ", closest_cows[0])
-		closest_cows[0].speed += 200
-	else:
-		print("No cows found.")
+#func _on_lasso():
+	#print("the player lasso'd")
+	#var closest_cow = get_closest_cows(dog, 1, 200)
+	#if closest_cow.size() > 0:
+		#print("Closest cow: ", closest_cow[0])
+		#var cow_position = closest_cow[0].position
+		#var boids_center = center_of_mass()
+		#var direction = (boids_center - self.global_position).normalized()
+		#closest_cow[0].position += direction * speed 
+#
+#
+#func _on_dog_bark():
+	#print("The dog barked! React accordingly.")
+	#var closest_cows = get_closest_cows(dog, 1, 200)
+	##add a distance check for closest cow
+	#if closest_cows.size() > 0:
+		#print("Closest cow: ", closest_cows[0])
+		#closest_cows[0].speed += 200
+	#else:
+		#print("No cows found.")
 
 
 func herd_behavior(delta):
@@ -167,47 +161,47 @@ func herd_behavior(delta):
 		raycast.rotation = velocity.angle()
 
 
-func behavior_risk_aversion(delta):
-	#create a group called "risks" where all the risk nodes are added
-	var risk_nodes = get_tree().get_nodes_in_group("risks")
-	if risk_nodes.is_empty():  #no risks
-		return velocity
-	var closest_risk = null
-	var min_distance = INF
-	for risk in risk_nodes:
-		var distance = (risk.global_position - global_position).length()
-		if distance < min_distance:
-			min_distance = distance
-			closest_risk = risk
-	if closest_risk:
-		if closest_risk == dog:
-			risk_aversion_strength = 10
-		var risk_direction = (global_position - closest_risk.global_position).normalized()
-		var risk_velocity = risk_direction * speed * risk_aversion_strength
-		var smooth_factor = 0.1
-		velocity = velocity.lerp(risk_velocity, smooth_factor)
-		risk_aversion_strength = 2
-	return velocity
+#func behavior_risk_aversion(delta):
+	##create a group called "risks" where all the risk nodes are added
+	#var risk_nodes = get_tree().get_nodes_in_group("risks")
+	#if risk_nodes.is_empty():  #no risks
+		#return velocity
+	#var closest_risk = null
+	#var min_distance = INF
+	#for risk in risk_nodes:
+		#var distance = (risk.global_position - global_position).length()
+		#if distance < min_distance:
+			#min_distance = distance
+			#closest_risk = risk
+	#if closest_risk:
+		#if closest_risk == dog:
+			#risk_aversion_strength = 10
+		#var risk_direction = (global_position - closest_risk.global_position).normalized()
+		#var risk_velocity = risk_direction * speed * risk_aversion_strength
+		#var smooth_factor = 0.1
+		#velocity = velocity.lerp(risk_velocity, smooth_factor)
+		#risk_aversion_strength = 2
+	#return velocity
 
 
-func behavior_goal_seeking(delta):
-	#create a group named "goals" where all the goal nodes are added
-	var goal_nodes = get_tree().get_nodes_in_group("goals")
-	if goal_nodes.is_empty():
-		return velocity # No goals to seek
-	var closest_goal = null
-	var min_distance = 300
-	for goal in goal_nodes:
-		var distance = (goal.global_position - global_position).length()
-		if distance < min_distance:
-			min_distance = distance
-			closest_goal = goal
-	if closest_goal:
-		var goal_direction = (closest_goal.global_position - global_position).normalized()
-		var goal_velocity = goal_direction * speed *  goal_seeking_strength
-		var smooth_factor = 0.1
-		velocity = velocity.lerp(goal_velocity, smooth_factor)
-	return velocity
+#func behavior_goal_seeking(delta):
+	##create a group named "goals" where all the goal nodes are added
+	#var goal_nodes = get_tree().get_nodes_in_group("goals")
+	#if goal_nodes.is_empty():
+		#return velocity # No goals to seek
+	#var closest_goal = null
+	#var min_distance = 300
+	#for goal in goal_nodes:
+		#var distance = (goal.global_position - global_position).length()
+		#if distance < min_distance:
+			#min_distance = distance
+			#closest_goal = goal
+	#if closest_goal:
+		#var goal_direction = (closest_goal.global_position - global_position).normalized()
+		#var goal_velocity = goal_direction * speed *  goal_seeking_strength
+		#var smooth_factor = 0.1
+		#velocity = velocity.lerp(goal_velocity, smooth_factor)
+	#return velocity
 
 
 func behavior_alignment(delta):
@@ -269,33 +263,33 @@ func behavior_cohesion(delta):
 	return cohesion #return 
 
 
-func center_of_mass():
-	var boids_in_range = []
-	var center_of_mass = Vector2()
-	for boid in all_boids:
-			if boid != self and (boid.global_position - global_position).length() <= follow_distance:
-				boids_in_range.append(boid)
-	if boids_in_range.size() > 0:
-		for boid in boids_in_range:
-			center_of_mass += boid.global_position
-		
-		center_of_mass /= boids_in_range.size()
-		return center_of_mass
-	return player.position
-
-
-func behavior_dog_push(delta):
-	#dog push cow logic
-	dog_position = dog.position
-	target_position = (dog_position - position).normalized()
-	distance_to_dog = calculate_distance_to(dog)
-	var direction = (dog_position - position).normalized()
-	if distance_to_dog <= avoid_distance:
-		velocity = -direction.normalized() * speed * dog_push_strength
-		return velocity
-	else:
-		return velocity
-
+#func center_of_mass():
+	#var boids_in_range = []
+	#var center_of_mass = Vector2()
+	#for boid in all_boids:
+			#if boid != self and (boid.global_position - global_position).length() <= follow_distance:
+				#boids_in_range.append(boid)
+	#if boids_in_range.size() > 0:
+		#for boid in boids_in_range:
+			#center_of_mass += boid.global_position
+		#
+		#center_of_mass /= boids_in_range.size()
+		#return center_of_mass
+	#return player.position
+#
+##
+##func behavior_dog_push(delta):
+	###dog push cow logic
+	##dog_position = dog.position
+	##target_position = (dog_position - position).normalized()
+	##distance_to_dog = calculate_distance_to(dog)
+	##var direction = (dog_position - position).normalized()
+	##if distance_to_dog <= avoid_distance:
+		##velocity = -direction.normalized() * speed * dog_push_strength
+		##return velocity
+	##else:
+		##return velocity
+##
 
 func behavior_player_push(delta):
 	# Player and cow positions
@@ -312,64 +306,63 @@ func behavior_player_push(delta):
 	return velocity
 
 
-func behavior_push_from_entities(delta, entity_position):
-	var distance_to_entity = position.distance_to(entity_position)  # Update this line
-	var direction = (entity_position - position).normalized()
+#func behavior_push_from_entities(delta, entity_position):
+	#var distance_to_entity = position.distance_to(entity_position)  # Update this line
+	#var direction = (entity_position - position).normalized()
+#
+	## If the entity (player or dog) is within the avoid distance, push away
+	#if distance_to_entity <= avoid_distance:
+		#return -direction * speed
+	#else:
+		#return Vector2.ZERO
+#
+#
+#func behavior_player_dog_push(delta):
+	#var player_push = behavior_push_from_entities(delta, player.position)
+	#var dog_push = behavior_push_from_entities(delta, dog.position)
+#
+	## Combine the forces from both player and dog equally
+	#var combined_push = player_push + dog_push
+#
+	#return combined_push
+#
+#
+#
+#func behavior_push_pull(delta):
+	##follow player logic
+	#player_position = player.position
+	#print("pull")
+	#target_position = (player_position - position).normalized()
+	#distance_to_player = calculate_distance_to(player)
+	#var direction = (player_position - position).normalized()
+	#if distance_to_player >= avoid_distance and distance_to_player <= follow_distance:
+		#velocity = direction.normalized() * speed
+		#return velocity
+	#elif distance_to_player <= avoid_distance:
+		##print("push")
+		#velocity = -direction.normalized() * speed * push_strength
+		#return velocity
+	#else:
+		#return velocity
 
-	# If the entity (player or dog) is within the avoid distance, push away
-	if distance_to_entity <= avoid_distance:
-		return -direction * speed
-	else:
-		return Vector2.ZERO
-
-
-func behavior_player_dog_push(delta):
-	var player_push = behavior_push_from_entities(delta, player.position)
-	var dog_push = behavior_push_from_entities(delta, dog.position)
-
-	# Combine the forces from both player and dog equally
-	var combined_push = player_push + dog_push
-
-	return combined_push
-
-
-
-func behavior_push_pull(delta):
-	#follow player logic
-	player_position = player.position
-	print("pull")
-	target_position = (player_position - position).normalized()
-	distance_to_player = calculate_distance_to(player)
-	var direction = (player_position - position).normalized()
-	if distance_to_player >= avoid_distance and distance_to_player <= follow_distance:
-		print("pull")
-		velocity = direction.normalized() * speed
-		return velocity
-	elif distance_to_player <= avoid_distance:
-		#print("push")
-		velocity = -direction.normalized() * speed * push_strength
-		return velocity
-	else:
-		return velocity
-
-
-func behavior_wander(delta):
-	#random radius and random angle
-	distance_to_player = calculate_distance_to(player)
-	if distance_to_player >= avoid_distance:
-		if timer % 100 == 0:
-			var rng = RandomNumberGenerator.new()
-			var random_angle = rng.randf_range(0, 2 * PI)
-			var random_radius = rng.randf_range(200, 1000)
-			#make a vector
-			var x = Vector2.from_angle(random_angle)
-			velocity = x * random_radius
-			return velocity
-		else:
-			return velocity
-	else:
-		return velocity
-
-
-func _on_visible_on_screen_notifier_2d_screen_exited():
-	queue_free()
+#
+#func behavior_wander(delta):
+	##random radius and random angle
+	#distance_to_player = calculate_distance_to(player)
+	#if distance_to_player >= avoid_distance:
+		#if timer % 100 == 0:
+			#var rng = RandomNumberGenerator.new()
+			#var random_angle = rng.randf_range(0, 2 * PI)
+			#var random_radius = rng.randf_range(200, 1000)
+			##make a vector
+			#var x = Vector2.from_angle(random_angle)
+			#velocity = x * random_radius
+			#return velocity
+		#else:
+			#return velocity
+	#else:
+		#return velocity
+#
+#
+#func _on_visible_on_screen_notifier_2d_screen_exited():
+	#queue_free()

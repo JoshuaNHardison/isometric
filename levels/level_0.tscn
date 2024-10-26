@@ -101,7 +101,7 @@ motion_mode = 1
 
 [node name="Cow13" parent="Walls" groups=["boids"] instance=ExtResource("7_nnm0e")]
 y_sort_enabled = true
-position = Vector2(1284, 782)
+position = Vector2(288, 807)
 motion_mode = 1
 
 [node name="Cow14" parent="Walls" groups=["boids"] instance=ExtResource("7_nnm0e")]
@@ -111,12 +111,12 @@ motion_mode = 1
 
 [node name="Cow15" parent="Walls" groups=["boids"] instance=ExtResource("7_nnm0e")]
 y_sort_enabled = true
-position = Vector2(1226, 932)
+position = Vector2(226, 720)
 motion_mode = 1
 
 [node name="Cow16" parent="Walls" groups=["boids"] instance=ExtResource("7_nnm0e")]
 y_sort_enabled = true
-position = Vector2(701, 762)
+position = Vector2(145, 801)
 motion_mode = 1
 
 [node name="Goblin" parent="Walls" instance=ExtResource("3_goh56")]

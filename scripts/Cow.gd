@@ -58,12 +58,37 @@ func _ready():
 	
 	all_cows.append(self)
 	populate_all_cows()
+	populate_all_boids()
 	
 	herdArea.connect("area_entered", Callable(self, "_on_area_entered"))
 	herdArea.connect("area_exited", Callable(self, "_on_area_exited"))
 	
 	motion_mode = CharacterBody2D.MOTION_MODE_FLOATING
 
+
+func populate_local_boids(current_cow: Node2D, num_neighbors: int) -> Array:
+	var closest_cows = get_closest_cows(current_cow, num_neighbors)
+	return closest_cows
+
+func get_closest_cows(reference_node: Node2D, num_cows: int) -> Array:
+	var distances = []
+	var reference_node_position = reference_node.position
+	
+	# Loop through all cows, but ignore the reference node (current cow itself)
+	for cow in all_cows:
+		if cow != reference_node: # Exclude the current cow from the list
+			var distance = reference_node_position.distance_to(cow.position)
+			distances.append({'cow': cow, 'distance': distance})
+	
+	# Sort by distance (closest first)
+	distances.sort_custom(func(a, b): return a['distance'] < b['distance'])
+	
+	# Collect the closest cows, limiting to the number requested
+	var closest_cows = []
+	for i in range(min(num_cows, distances.size())):
+		closest_cows.append(distances[i]['cow'])
+	
+	return closest_cows
 
 func populate_all_boids():
 	all_boids.clear()
@@ -81,21 +106,21 @@ func populate_all_cows():
 			all_cows.append(cow)
 
 
-func get_closest_cows(reference_node: Node2D, num_cows: int) -> Array:
-	var distances = []
-	var reference_node_position = reference_node.position
-	for cow in all_cows:
-		if cow:
-			var distance = reference_node_position.distance_to(cow.position)
-			distances.append({'cow': cow, 'distance': distance})
-	
-	distances.sort_custom(func(a, b): return a['distance'] < b['distance'])
-	var closest_cows = []
-	
-	for i in range(min(1, distances.size())):
-		closest_cows.append(distances[i]['cow'])
-	
-	return closest_cows
+#func get_closest_cows(reference_node: Node2D, num_cows: int) -> Array:
+	#var distances = []
+	#var reference_node_position = reference_node.position
+	#for cow in all_cows:
+		#if cow:
+			#var distance = reference_node_position.distance_to(cow.position)
+			#distances.append({'cow': cow, 'distance': distance})
+	#
+	#distances.sort_custom(func(a, b): return a['distance'] < b['distance'])
+	#var closest_cows = []
+	#
+	#for i in range(min(num_cows, distances.size())):
+		#closest_cows.append(distances[i]['cow'])
+	#
+	#return closest_cows
 
 
 func calculate_distance_to(target: Node2D) -> float:
@@ -106,8 +131,6 @@ func _physics_process(delta: float):
 	timer = Time.get_ticks_msec()
 	if !lost_cow:
 		$Label.text = var_to_str(velocity.length())
-		$Label.text = var_to_str(lost_cow)
-		#print("not lost")
 		herd_behavior(delta)
 	elif lost_cow:
 		#print("lost")
@@ -182,44 +205,68 @@ func behavior_flock(delta):
 	else:
 		return Vector2.ZERO  # No neighbors, return zero vector
 
+#func herd_behavior(delta):
+	#if player:
+		##if another cow is within the herd distance
+		##add a bunch of dif vectors to calc vel
+		##like player pos
+		##set velocity to the behavior_follow/behavior_drive (the single command)
+		##get vectors (in a similar way to the previous command) for separation, alignment and cohesion
+		##maybe add all the given vectors together
+		##var push_pull = behavior_push_pull(delta)
+		#var player_push = behavior_player_push(delta)
+		#var dog_push = behavior_dog_push(delta)
+		#var wander = behavior_wander(delta)
+		#var separation = behavior_separation(delta)
+		#var alignment = behavior_alignment(delta)
+		#var cohesion = behavior_cohesion(delta)
+		#var goal_seeking = behavior_goal_seeking(delta)
+		#var risk_aversion = behavior_risk_aversion(delta)
+		#var smooth_factor = 0.1
+		#var target_velocity = (player_push + dog_push + separation + alignment + cohesion + goal_seeking + risk_aversion + wander)
+		##velocity = push_pull + separation 
+		##if velocity.length() > 0:
+			##velocity = velocity.normalized() * max_speed
+		#if target_velocity.length() > max_speed:
+			#target_velocity = target_velocity.normalized() * max_speed
+		#velocity = velocity.lerp(target_velocity, smooth_factor)
+		#if velocity.length() > max_speed:
+			#velocity = velocity.normalized() * max_speed
+		#
+		##velocity = velocity.lerp(velocity, 0.05)
+		#
+		#move_and_slide()
+		#raycast.rotation = velocity.angle()
+		##maybe wait after determining the velocity until something happens?
+		##goals for cows include water, grass, stay away from player
 func herd_behavior(delta):
 	if player:
-		#if another cow is within the herd distance
-		#add a bunch of dif vectors to calc vel
-		#like player pos
-		#set velocity to the behavior_follow/behavior_drive (the single command)
-		#get vectors (in a similar way to the previous command) for separation, alignment and cohesion
-		#maybe add all the given vectors together
-		#var push_pull = behavior_push_pull(delta)
-		var player_push = behavior_player_push(delta)
-		var dog_push = behavior_dog_push(delta)
+		var combined_push = behavior_player_dog_push(delta)
+		#var player_push = behavior_player_push(delta)
+		#var dog_push = behavior_dog_push(delta)
 		var wander = behavior_wander(delta)
 		var separation = behavior_separation(delta)
 		var alignment = behavior_alignment(delta)
 		var cohesion = behavior_cohesion(delta)
 		var goal_seeking = behavior_goal_seeking(delta)
 		var risk_aversion = behavior_risk_aversion(delta)
-		var smooth_factor = 0.1
-		var target_velocity = (player_push + dog_push + separation + alignment + cohesion + goal_seeking + risk_aversion + wander)
-		#velocity = push_pull + separation 
-		#if velocity.length() > 0:
-			#velocity = velocity.normalized() * max_speed
+
+		# Combine all behavior vectors
+		var target_velocity = combined_push + separation + alignment + cohesion + goal_seeking + risk_aversion + wander
+
+		# Ensure we don't slow down unnecessarily by checking against max_speed
 		if target_velocity.length() > max_speed:
 			target_velocity = target_velocity.normalized() * max_speed
-		velocity = velocity.lerp(target_velocity, smooth_factor)
-		if velocity.length() > max_speed:
+
+		# Smooth the change in velocity (optional for more fluid motion)
+		velocity = velocity.lerp(target_velocity, 0.5)
+
+		# Final check to ensure cows always move at max speed if not influenced otherwise
+		if velocity.length() < max_speed and target_velocity.length() > 0:
 			velocity = velocity.normalized() * max_speed
-		
-		#velocity = velocity.lerp(velocity, 0.05)
 		
 		move_and_slide()
 		raycast.rotation = velocity.angle()
-		#maybe wait after determining the velocity until something happens?
-		#goals for cows include water, grass, stay away from player
-
-
-func behavior_variable_speed(delta):
-	pass
 
 
 func behavior_risk_aversion(delta):
@@ -266,27 +313,32 @@ func behavior_goal_seeking(delta):
 
 
 func behavior_alignment(delta):
-	populate_all_boids()
+	var neighbors = populate_local_boids(self, 5) # Get 5 closest boids (neighbors)
 	var direction = Vector2.ZERO
-	var boids_in_range = []
 	var headings = []
-	for boid in all_boids:
-		if boid != self and (boid.global_position - global_position).length() <= follow_distance:
-			boids_in_range.append(boid)
-	for boid in boids_in_range:
-		var distance = (boid.global_position - global_position).length()
+	
+	# Loop through the neighbors, which are the closest boids
+	for neighbor in neighbors:
+		var distance = (neighbor.global_position - global_position).length()
+		# If within alignment_radius, calculate heading
 		if distance <= alignment_radius:
-			var ratio = clamp((boid.global_position - global_position).length() / alignment_radius, 0.0, 1.0)
-			var heading = (boid.velocity).normalized() * ratio # Calculate the heading of the boid
+			# Calculate the ratio based on proximity
+			var ratio = clamp(distance / alignment_radius, 0.0, 1.0)
+			# Get the heading of the neighbor's velocity, scaled by ratio
+			var heading = (neighbor.velocity).normalized() * ratio
 			headings.append(heading)
+	
+	# If we have headings, calculate the average direction
 	if headings.size() > 0:
 		direction = Vector2.ZERO
 		for heading in headings:
 			direction += heading
+		
+		# Normalize the resulting direction and scale it by speed and alignment strength
 		direction = direction.normalized() * speed * alignment_strength
+	
 	return direction
-			#calculate the heading of the boid and store it in an array?
-	#calculate the average of the heading array
+
 
 
 func behavior_separation(delta):
@@ -345,13 +397,12 @@ func center_of_mass():
 
 
 func behavior_dog_push(delta):
-	#follow player logic
+	#dog push cow logic
 	dog_position = dog.position
 	target_position = (dog_position - position).normalized()
 	distance_to_dog = calculate_distance_to(dog)
 	var direction = (dog_position - position).normalized()
 	if distance_to_dog <= avoid_distance:
-		#print("push")
 		velocity = -direction.normalized() * speed * dog_push_strength
 		return velocity
 	else:
@@ -359,20 +410,40 @@ func behavior_dog_push(delta):
 
 
 func behavior_player_push(delta):
-	#follow player logic
+	# Player and cow positions
 	player_position = player.position
-	target_position = (player_position - position).normalized()
 	distance_to_player = calculate_distance_to(player)
 	var direction = (player_position - position).normalized()
+	# If too close to the player, push away quickly
 	if distance_to_player <= avoid_distance:
-		#print("push")
+		# Inside avoid radius: Move away faster with player_push_strength
 		velocity = -direction.normalized() * speed * player_push_strength
-		return velocity
 	else:
-		var slow_factor = (distance_to_player - avoid_distance) / avoid_distance
-		slow_factor = clamp(slow_factor, 0, 1)  # Ensure it's between 0 and 1
-		velocity = direction * speed * (1 - slow_factor)  # Slower speed when farther away
-		return velocity
+		# Outside avoid radius: Move at normal speed (not slower)
+		velocity = direction * speed  # Full speed when outside avoid distance
+	return velocity
+
+
+func behavior_push_from_entities(delta, entity_position):
+	var distance_to_entity = position.distance_to(entity_position)  # Update this line
+	var direction = (entity_position - position).normalized()
+
+	# If the entity (player or dog) is within the avoid distance, push away
+	if distance_to_entity <= avoid_distance:
+		return -direction * speed
+	else:
+		return Vector2.ZERO
+
+
+func behavior_player_dog_push(delta):
+	var player_push = behavior_push_from_entities(delta, player.position)
+	var dog_push = behavior_push_from_entities(delta, dog.position)
+
+	# Combine the forces from both player and dog equally
+	var combined_push = player_push + dog_push
+
+	return combined_push
+
 
 
 func behavior_push_pull(delta):

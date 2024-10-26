@@ -38,6 +38,7 @@ visible = false
 y_sort_enabled = true
 position = Vector2(763, 834)
 motion_mode = 1
+avoid_distance = 200.0
 
 [node name="Cow3" parent="Walls" groups=["boids"] instance=ExtResource("7_nnm0e")]
 visible = false
@@ -115,16 +116,17 @@ motion_mode = 1
 
 [node name="Cow16" parent="Walls" groups=["boids"] instance=ExtResource("7_nnm0e")]
 y_sort_enabled = true
-position = Vector2(678, 734)
+position = Vector2(701, 762)
 motion_mode = 1
 
 [node name="Goblin" parent="Walls" instance=ExtResource("3_goh56")]
+visible = false
 y_sort_enabled = true
-position = Vector2(1032, 1159)
+position = Vector2(546, 991)
 
 [node name="Dog" parent="Walls" groups=["risks"] instance=ExtResource("3_3apsh")]
 y_sort_enabled = true
-position = Vector2(830, 1176)
+position = Vector2(902, 895)
 
 [node name="EnemyPatrolPath" type="Node2D" parent="."]
 visible = false

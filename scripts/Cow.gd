@@ -10,15 +10,16 @@ class_name Cow
 @export var push_strength = 2
 @export var player_push_strength = 2
 @export var dog_push_strength = 1
-@export var separation_radius = 20
-@export var separation_strength = 1
-@export var alignment_radius = 100
-@export var alignment_strength = 1
-@export var cohesion_radius = 100
+@export var separation_radius = 200
+@export var separation_strength = 100
+@export var alignment_radius = 1000
+@export var alignment_strength = 100
+@export var cohesion_radius = 1000
 @export var cohesion_strength = 1
 @export var goal_seeking_strength = 2
 @export var risk_aversion_strength = 2
 @export var max_speed = 100.0
+@export var boids_radius = 300
 #@export var stop_distance: float = 3.0 # Distance at which cow stops moving away
 
 
@@ -31,9 +32,10 @@ class_name Cow
 @onready var players = [player, dog]
 
 
-var all_cows = []
-var all_boids = []
-var closest_cows = []
+@onready var all_cows = []
+@onready var all_boids = []
+@onready var closest_cows = []
+@onready var neighbors = []
 var timer = 0.0
 var avoidance_direction = Vector2.ZERO
 var player_position
@@ -41,6 +43,7 @@ var dog_position
 var target_position
 var distance_to_player
 var distance_to_dog
+
 
 
 
@@ -53,8 +56,8 @@ func _ready():
 	var mob_types = anim.sprite_frames.get_animation_names()
 	anim.play(mob_types[randi() % mob_types.size()])
 	
-	all_cows.append(self)
-	populate_all_cows()
+	#all_cows.append(self)
+	#populate_all_cows()
 	populate_all_boids()
 	
 	herdArea.connect("area_entered", Callable(self, "_on_area_entered"))
@@ -64,16 +67,16 @@ func _ready():
 
 
 func populate_local_boids(current_cow: Node2D, num_neighbors: int, max_distance: int) -> Array:
-	closest_cows.clear()
 	closest_cows = get_closest_cows(current_cow, num_neighbors, max_distance)
+	print("inside populate_local_boids() -> closest cows: " + var_to_str(closest_cows))
 	return closest_cows
 
 func get_closest_cows(reference_node: Node2D, num_cows: int, max_distance: int) -> Array:
 	var distances = []
+	print("inside get_closes_cows() -> closest cows: ")
 	var reference_node_position = reference_node.position
-	
 	# Loop through all cows, but ignore the reference node (current cow itself)
-	for cow in all_cows:
+	for cow in all_boids:
 		if cow != reference_node: # Exclude the current cow from the list
 			var distance = reference_node_position.distance_to(cow.position)
 			if distance <= max_distance:
@@ -89,16 +92,13 @@ func get_closest_cows(reference_node: Node2D, num_cows: int, max_distance: int) 
 	return closest_cows
 
 func populate_all_boids():
-	all_boids.clear()
+	print("all boids called")
 	for cow in get_tree().get_nodes_in_group("boids"):
 		if cow is Cow:
+			print("Found cow: ", cow.name)
 			all_boids.append(cow)
-			lost_cow = false
-		else:
-			lost_cow = true
 
 func populate_all_cows():
-	all_cows.clear()
 	for cow in get_tree().get_nodes_in_group("boids"):
 		if cow is Cow:
 			all_cows.append(cow)
@@ -118,16 +118,17 @@ func _physics_process(delta: float):
 		#behavior_wander(delta)
 
 #should i connect the lasso signal to the "teleport" function? 
-#func _on_lasso():
-	#print("the player lasso'd")
+func _on_lasso():
+	print("the player lasso'd")
+	#print(var_to_str(all_boids[0]))
 	#var closest_cow = get_closest_cows(dog, 1, 200)
 	#if closest_cow.size() > 0:
-		#print("Closest cow: ", closest_cow[0])
+		#print("Inside _on_lasso() -> Closest cow: ", closest_cow[0])
 		#var cow_position = closest_cow[0].position
 		#var boids_center = center_of_mass()
 		#var direction = (boids_center - self.global_position).normalized()
 		#closest_cow[0].position += direction * speed 
-#
+
 #
 #func _on_dog_bark():
 	#print("The dog barked! React accordingly.")
@@ -142,6 +143,7 @@ func _physics_process(delta: float):
 
 func herd_behavior(delta):
 	if player:
+		neighbors = get_closest_cows(self, 4, boids_distance)
 		var player_push = behavior_player_push(delta)
 		var cohesion = behavior_cohesion(delta)
 		var alignment = behavior_alignment(delta)
@@ -205,10 +207,8 @@ func herd_behavior(delta):
 
 
 func behavior_alignment(delta):
-	var neighbors = populate_local_boids(self, 5, alignment_radius) # Get 5 closest boids (neighbors)
 	var direction = Vector2.ZERO
 	var headings = []
-	
 	# Loop through the neighbors, which are the closest boids
 	for neighbor in neighbors:
 		var distance = (neighbor.global_position - global_position).length()
@@ -225,16 +225,15 @@ func behavior_alignment(delta):
 		direction = Vector2.ZERO
 		for heading in headings:
 			direction += heading
-		
+			print("did i make it here")
 		# Normalize the resulting direction and scale it by speed and alignment strength
 		direction = direction.normalized() * speed * alignment_strength
-	
 	return direction
 
 func behavior_separation(delta):
 	var direction = Vector2.ZERO
-	var neighbors = populate_local_boids(self, 5, separation_radius)
 	for boid in neighbors:
+		print("inside separation")
 		var distance = (boid.global_position - global_position).length()
 		if distance <= separation_radius:
 			var ratio = clamp((boid.global_position - global_position).length() / separation_radius, 0.0, 1.0)
@@ -245,7 +244,6 @@ func behavior_separation(delta):
 	return separation
 
 func behavior_cohesion(delta):
-	var neighbors = populate_local_boids(self, 5, cohesion_radius)
 	var direction = Vector2.ZERO
 	var boids_in_range = []
 	var center_of_mass = Vector2.ZERO
@@ -263,21 +261,19 @@ func behavior_cohesion(delta):
 	return cohesion #return 
 
 
-#func center_of_mass():
-	#var boids_in_range = []
-	#var center_of_mass = Vector2()
-	#for boid in all_boids:
-			#if boid != self and (boid.global_position - global_position).length() <= follow_distance:
-				#boids_in_range.append(boid)
-	#if boids_in_range.size() > 0:
-		#for boid in boids_in_range:
-			#center_of_mass += boid.global_position
-		#
-		#center_of_mass /= boids_in_range.size()
-		#return center_of_mass
-	#return player.position
-#
-##
+func center_of_mass():
+	var boids_in_range = []
+	var center_of_mass = Vector2.ZERO
+	for boid in all_boids:
+			if boid != self and (boid.global_position - global_position).length() <= boids_radius:
+				boids_in_range.append(boid)
+	if boids_in_range.size() > 0:
+		for boid in boids_in_range:
+			center_of_mass += boid.global_position
+		center_of_mass /= boids_in_range.size()
+		return center_of_mass
+	return player.position
+
 ##func behavior_dog_push(delta):
 	###dog push cow logic
 	##dog_position = dog.position
@@ -300,9 +296,6 @@ func behavior_player_push(delta):
 	if distance_to_player <= avoid_distance:
 		# Inside avoid radius: Move away faster with player_push_strength
 		velocity = -direction.normalized() * speed * player_push_strength
-	else:
-		# Outside avoid radius: Move at normal speed (not slower)
-		velocity = direction * speed  # Full speed when outside avoid distance
 	return velocity
 
 
@@ -325,9 +318,8 @@ func behavior_player_push(delta):
 	#var combined_push = player_push + dog_push
 #
 	#return combined_push
-#
-#
-#
+
+
 #func behavior_push_pull(delta):
 	##follow player logic
 	#player_position = player.position
@@ -345,7 +337,7 @@ func behavior_player_push(delta):
 	#else:
 		#return velocity
 
-#
+
 #func behavior_wander(delta):
 	##random radius and random angle
 	#distance_to_player = calculate_distance_to(player)
@@ -362,7 +354,7 @@ func behavior_player_push(delta):
 			#return velocity
 	#else:
 		#return velocity
-#
-#
-#func _on_visible_on_screen_notifier_2d_screen_exited():
-	#queue_free()
+
+
+func _on_visible_on_screen_notifier_2d_screen_exited():
+	queue_free()

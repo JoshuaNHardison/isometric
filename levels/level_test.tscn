@@ -1,0 +1,33 @@
+[gd_scene load_steps=4 format=3 uid="uid://ch22bmhu3sa4m"]
+
+[ext_resource type="TileSet" uid="uid://ceswxvl27cesm" path="res://tileset/tileset.tres" id="1_hbpbv"]
+[ext_resource type="PackedScene" uid="uid://bewfnje1mnevg" path="res://scenes/cow.tscn" id="1_l0s62"]
+[ext_resource type="PackedScene" uid="uid://bqpkxht3mx8l8" path="res://scenes/goblin.tscn" id="2_blomu"]
+
+[node name="Node2D" type="Node2D"]
+y_sort_enabled = true
+
+[node name="TileMap" type="TileMap" parent="."]
+z_index = 1
+y_sort_enabled = true
+tile_set = ExtResource("1_hbpbv")
+format = 2
+layer_0/tile_data = PackedInt32Array(131071, 2, 65536, 196607, 2, 65536, 65535, 2, 65536, -1, 2, 65536, -65537, 2, 65536, -131073, 2, 65536, -196608, 2, 65536, -196607, 2, 65536, -196606, 2, 65536, -196605, 2, 65536, -196604, 2, 65536, -196603, 2, 65536, -196602, 2, 65536, -131066, 2, 65536, -65530, 2, 65536, 6, 2, 65536, 65542, 2, 65536, 131078, 2, 65536, 196614, 2, 65536, 327679, 2, 65536, 393215, 2, 65536, 262143, 2, 65536, 262150, 2, 65536)
+
+[node name="Cow" parent="TileMap" groups=["boids"] instance=ExtResource("1_l0s62")]
+y_sort_enabled = true
+position = Vector2(247, 243)
+
+[node name="Goblin" parent="TileMap" instance=ExtResource("2_blomu")]
+y_sort_enabled = true
+position = Vector2(164, 78)
+
+[node name="Cow2" parent="TileMap" groups=["boids"] instance=ExtResource("1_l0s62")]
+y_sort_enabled = true
+position = Vector2(116, 177)
+
+[node name="Cow3" parent="TileMap" groups=["boids"] instance=ExtResource("1_l0s62")]
+y_sort_enabled = true
+position = Vector2(279, 146)
+
+[connection signal="lasso" from="TileMap/Goblin" to="TileMap/Cow" method="_on_goblin_lasso"]

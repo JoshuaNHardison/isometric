@@ -4,7 +4,6 @@ class_name Cow
 
 @export var speed: float = 20
 @export var lost_cow: bool = false
-@export var follow_distance: float = 800.0  # Distance to start following
 @export var avoid_distance: float = 500.0  # Distance to start avoiding
 @export var boids_distance: float = 500.0
 @export var push_strength = 2
@@ -20,7 +19,6 @@ class_name Cow
 @export var risk_aversion_strength = 2
 @export var max_speed = 100.0
 @export var boids_radius = 300
-#@export var stop_distance: float = 3.0 # Distance at which cow stops moving away
 
 
 @onready var anim: AnimatedSprite2D = $AnimatedSprite2D
@@ -58,18 +56,14 @@ func _ready():
 	
 	#all_cows.append(self)
 	#populate_all_cows()
-	populate_all_boids()
+	populate_all_boids() #this is running on each cow
+	#create cow manager that only runs once per game instance
 	
 	herdArea.connect("area_entered", Callable(self, "_on_area_entered"))
 	herdArea.connect("area_exited", Callable(self, "_on_area_exited"))
 	
 	motion_mode = CharacterBody2D.MOTION_MODE_FLOATING
 
-
-func populate_local_boids(current_cow: Node2D, num_neighbors: int, max_distance: int) -> Array:
-	closest_cows = get_closest_cows(current_cow, num_neighbors, max_distance)
-	print("inside populate_local_boids() -> closest cows: " + var_to_str(closest_cows))
-	return closest_cows
 
 func get_closest_cows(reference_node: Node2D, num_cows: int, max_distance: int) -> Array:
 	var distances = []
@@ -84,7 +78,7 @@ func get_closest_cows(reference_node: Node2D, num_cows: int, max_distance: int) 
 	
 	# Sort by distance (closest first)
 	distances.sort_custom(func(a, b): return a['distance'] < b['distance'])
-	
+	closest_cows = []
 	# Collect the closest cows, limiting to the number requested
 	for i in range(min(num_cows, distances.size())):
 		closest_cows.append(distances[i]['cow'])
@@ -117,29 +111,6 @@ func _physics_process(delta: float):
 		print("lost")
 		#behavior_wander(delta)
 
-#should i connect the lasso signal to the "teleport" function? 
-func _on_lasso():
-	print("the player lasso'd")
-	#print(var_to_str(all_boids[0]))
-	#var closest_cow = get_closest_cows(dog, 1, 200)
-	#if closest_cow.size() > 0:
-		#print("Inside _on_lasso() -> Closest cow: ", closest_cow[0])
-		#var cow_position = closest_cow[0].position
-		#var boids_center = center_of_mass()
-		#var direction = (boids_center - self.global_position).normalized()
-		#closest_cow[0].position += direction * speed 
-
-#
-#func _on_dog_bark():
-	#print("The dog barked! React accordingly.")
-	#var closest_cows = get_closest_cows(dog, 1, 200)
-	##add a distance check for closest cow
-	#if closest_cows.size() > 0:
-		#print("Closest cow: ", closest_cows[0])
-		#closest_cows[0].speed += 200
-	#else:
-		#print("No cows found.")
-
 
 func herd_behavior(delta):
 	if player:
@@ -161,49 +132,6 @@ func herd_behavior(delta):
 		
 		move_and_slide()
 		raycast.rotation = velocity.angle()
-
-
-#func behavior_risk_aversion(delta):
-	##create a group called "risks" where all the risk nodes are added
-	#var risk_nodes = get_tree().get_nodes_in_group("risks")
-	#if risk_nodes.is_empty():  #no risks
-		#return velocity
-	#var closest_risk = null
-	#var min_distance = INF
-	#for risk in risk_nodes:
-		#var distance = (risk.global_position - global_position).length()
-		#if distance < min_distance:
-			#min_distance = distance
-			#closest_risk = risk
-	#if closest_risk:
-		#if closest_risk == dog:
-			#risk_aversion_strength = 10
-		#var risk_direction = (global_position - closest_risk.global_position).normalized()
-		#var risk_velocity = risk_direction * speed * risk_aversion_strength
-		#var smooth_factor = 0.1
-		#velocity = velocity.lerp(risk_velocity, smooth_factor)
-		#risk_aversion_strength = 2
-	#return velocity
-
-
-#func behavior_goal_seeking(delta):
-	##create a group named "goals" where all the goal nodes are added
-	#var goal_nodes = get_tree().get_nodes_in_group("goals")
-	#if goal_nodes.is_empty():
-		#return velocity # No goals to seek
-	#var closest_goal = null
-	#var min_distance = 300
-	#for goal in goal_nodes:
-		#var distance = (goal.global_position - global_position).length()
-		#if distance < min_distance:
-			#min_distance = distance
-			#closest_goal = goal
-	#if closest_goal:
-		#var goal_direction = (closest_goal.global_position - global_position).normalized()
-		#var goal_velocity = goal_direction * speed *  goal_seeking_strength
-		#var smooth_factor = 0.1
-		#velocity = velocity.lerp(goal_velocity, smooth_factor)
-	#return velocity
 
 
 func behavior_alignment(delta):
@@ -233,7 +161,6 @@ func behavior_alignment(delta):
 func behavior_separation(delta):
 	var direction = Vector2.ZERO
 	for boid in neighbors:
-		print("inside separation")
 		var distance = (boid.global_position - global_position).length()
 		if distance <= separation_radius:
 			var ratio = clamp((boid.global_position - global_position).length() / separation_radius, 0.0, 1.0)
@@ -259,7 +186,6 @@ func behavior_cohesion(delta):
 		direction = (center_of_mass - global_position).normalized()
 	var cohesion = direction * speed * cohesion_strength
 	return cohesion #return 
-
 
 func center_of_mass():
 	var boids_in_range = []
@@ -299,7 +225,7 @@ func behavior_player_push(delta):
 	return velocity
 
 
-#func behavior_push_from_entities(delta, entity_position):
+#func (delta, entity_position):
 	#var distance_to_entity = position.distance_to(entity_position)  # Update this line
 	#var direction = (entity_position - position).normalized()
 #
@@ -354,6 +280,76 @@ func behavior_player_push(delta):
 			#return velocity
 	#else:
 		#return velocity
+
+
+
+#func behavior_risk_aversion(delta):
+	##create a group called "risks" where all the risk nodes are added
+	#var risk_nodes = get_tree().get_nodes_in_group("risks")
+	#if risk_nodes.is_empty():  #no risks
+		#return velocity
+	#var closest_risk = null
+	#var min_distance = INF
+	#for risk in risk_nodes:
+		#var distance = (risk.global_position - global_position).length()
+		#if distance < min_distance:
+			#min_distance = distance
+			#closest_risk = risk
+	#if closest_risk:
+		#if closest_risk == dog:
+			#risk_aversion_strength = 10
+		#var risk_direction = (global_position - closest_risk.global_position).normalized()
+		#var risk_velocity = risk_direction * speed * risk_aversion_strength
+		#var smooth_factor = 0.1
+		#velocity = velocity.lerp(risk_velocity, smooth_factor)
+		#risk_aversion_strength = 2
+	#return velocity
+
+
+#func behavior_goal_seeking(delta):
+	##create a group named "goals" where all the goal nodes are added
+	#var goal_nodes = get_tree().get_nodes_in_group("goals")
+	#if goal_nodes.is_empty():
+		#return velocity # No goals to seek
+	#var closest_goal = null
+	#var min_distance = 300
+	#for goal in goal_nodes:
+		#var distance = (goal.global_position - global_position).length()
+		#if distance < min_distance:
+			#min_distance = distance
+			#closest_goal = goal
+	#if closest_goal:
+		#var goal_direction = (closest_goal.global_position - global_position).normalized()
+		#var goal_velocity = goal_direction * speed *  goal_seeking_strength
+		#var smooth_factor = 0.1
+		#velocity = velocity.lerp(goal_velocity, smooth_factor)
+	#return velocity
+
+
+
+#should i connect the lasso signal to the "teleport" function? 
+func _on_lasso():
+	print("the player lasso'd")
+	#print(var_to_str(all_boids[0]))
+	#var closest_cow = get_closest_cows(dog, 1, 200)
+	#if closest_cow.size() > 0:
+		#print("Inside _on_lasso() -> Closest cow: ", closest_cow[0])
+		#var cow_position = closest_cow[0].position
+		#var boids_center = center_of_mass()
+		#var direction = (boids_center - self.global_position).normalized()
+		#closest_cow[0].position += direction * speed 
+
+#
+#func _on_dog_bark():
+	#print("The dog barked! React accordingly.")
+	#var closest_cows = get_closest_cows(dog, 1, 200)
+	##add a distance check for closest cow
+	#if closest_cows.size() > 0:
+		#print("Closest cow: ", closest_cows[0])
+		#closest_cows[0].speed += 200
+	#else:
+		#print("No cows found.")
+
 
 
 func _on_visible_on_screen_notifier_2d_screen_exited():

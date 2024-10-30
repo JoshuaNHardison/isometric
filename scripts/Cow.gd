@@ -61,7 +61,6 @@ func _ready():
 
 func get_closest_cows(reference_node: Node2D, num_cows: int, max_distance: int) -> Array:
 	var distances = []
-	print("inside get_closes_cows() -> closest cows: ")
 	var reference_node_position = reference_node.position
 	# Loop through all cows, but ignore the reference node (current cow itself)
 	for cow in CowManager.all_boids:
@@ -72,11 +71,11 @@ func get_closest_cows(reference_node: Node2D, num_cows: int, max_distance: int) 
 	
 	# Sort by distance (closest first)
 	distances.sort_custom(func(a, b): return a['distance'] < b['distance'])
-	closest_cows = []
 	# Collect the closest cows, limiting to the number requested
 	for i in range(min(num_cows, distances.size())):
 		closest_cows.append(distances[i]['cow'])
 	
+	print(closest_cows)
 	return closest_cows
 
 
@@ -135,7 +134,6 @@ func behavior_alignment(delta):
 		direction = Vector2.ZERO
 		for heading in headings:
 			direction += heading
-			print("did i make it here")
 		# Normalize the resulting direction and scale it by speed and alignment strength
 		direction = direction.normalized() * speed * alignment_strength
 	return direction

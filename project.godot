@@ -20,6 +20,10 @@ run/main_scene="res://levels/dungeon.tscn"
 config/features=PackedStringArray("4.2")
 config/icon="res://icon.webp"
 
+[autoload]
+
+CowManager="*res://scripts/cow_manager.gd"
+
 [display]
 
 window/stretch/mode="canvas_items"

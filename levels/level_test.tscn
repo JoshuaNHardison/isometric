@@ -1,9 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://ch22bmhu3sa4m"]
+[gd_scene load_steps=4 format=3 uid="uid://ch22bmhu3sa4m"]
 
 [ext_resource type="TileSet" uid="uid://ceswxvl27cesm" path="res://tileset/tileset.tres" id="1_hbpbv"]
 [ext_resource type="PackedScene" uid="uid://bewfnje1mnevg" path="res://scenes/cow.tscn" id="1_l0s62"]
 [ext_resource type="PackedScene" uid="uid://bqpkxht3mx8l8" path="res://scenes/goblin.tscn" id="2_blomu"]
-[ext_resource type="Script" path="res://scripts/cow_manager.gd" id="4_jljhx"]
 
 [node name="Node2D" type="Node2D"]
 y_sort_enabled = true
@@ -30,8 +29,5 @@ position = Vector2(116, 177)
 [node name="Cow3" parent="TileMap" groups=["boids"] instance=ExtResource("1_l0s62")]
 y_sort_enabled = true
 position = Vector2(279, 146)
-
-[node name="Node2D" type="Node2D" parent="."]
-script = ExtResource("4_jljhx")
 
 [connection signal="lasso" from="TileMap/Goblin" to="TileMap/Cow" method="_on_goblin_lasso"]

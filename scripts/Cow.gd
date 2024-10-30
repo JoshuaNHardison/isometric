@@ -30,12 +30,9 @@ class_name Cow
 @onready var players = [player, dog]
 
 
-@onready var all_cows = []
-@onready var all_boids = []
 @onready var closest_cows = []
 @onready var neighbors = []
 var timer = 0.0
-var avoidance_direction = Vector2.ZERO
 var player_position
 var dog_position
 var target_position
@@ -54,9 +51,6 @@ func _ready():
 	var mob_types = anim.sprite_frames.get_animation_names()
 	anim.play(mob_types[randi() % mob_types.size()])
 	
-	#all_cows.append(self)
-	#populate_all_cows()
-	populate_all_boids() #this is running on each cow
 	#create cow manager that only runs once per game instance
 	
 	herdArea.connect("area_entered", Callable(self, "_on_area_entered"))
@@ -70,7 +64,7 @@ func get_closest_cows(reference_node: Node2D, num_cows: int, max_distance: int) 
 	print("inside get_closes_cows() -> closest cows: ")
 	var reference_node_position = reference_node.position
 	# Loop through all cows, but ignore the reference node (current cow itself)
-	for cow in all_boids:
+	for cow in CowManager.all_boids:
 		if cow != reference_node: # Exclude the current cow from the list
 			var distance = reference_node_position.distance_to(cow.position)
 			if distance <= max_distance:
@@ -84,18 +78,6 @@ func get_closest_cows(reference_node: Node2D, num_cows: int, max_distance: int) 
 		closest_cows.append(distances[i]['cow'])
 	
 	return closest_cows
-
-func populate_all_boids():
-	print("all boids called")
-	for cow in get_tree().get_nodes_in_group("boids"):
-		if cow is Cow:
-			print("Found cow: ", cow.name)
-			all_boids.append(cow)
-
-func populate_all_cows():
-	for cow in get_tree().get_nodes_in_group("boids"):
-		if cow is Cow:
-			all_cows.append(cow)
 
 
 func calculate_distance_to(target: Node2D) -> float:
@@ -114,7 +96,7 @@ func _physics_process(delta: float):
 
 func herd_behavior(delta):
 	if player:
-		neighbors = get_closest_cows(self, 4, boids_distance)
+		neighbors = get_closest_cows(self, 2, boids_distance)
 		var player_push = behavior_player_push(delta)
 		var cohesion = behavior_cohesion(delta)
 		var alignment = behavior_alignment(delta)
@@ -190,7 +172,7 @@ func behavior_cohesion(delta):
 func center_of_mass():
 	var boids_in_range = []
 	var center_of_mass = Vector2.ZERO
-	for boid in all_boids:
+	for boid in CowManager.all_boids:
 			if boid != self and (boid.global_position - global_position).length() <= boids_radius:
 				boids_in_range.append(boid)
 	if boids_in_range.size() > 0:

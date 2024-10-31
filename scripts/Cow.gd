@@ -7,14 +7,14 @@ class_name Cow
 @export var avoid_distance: float = 500.0  # Distance to start avoiding
 @export var boids_distance: float = 500.0
 @export var push_strength = 2
-@export var player_push_strength = 2
+@export var player_push_strength = 1
 @export var dog_push_strength = 1
 @export var separation_radius = 200
-@export var separation_strength = 100
+@export var separation_strength = 5
 @export var alignment_radius = 1000
-@export var alignment_strength = 100
+@export var alignment_strength = 5
 @export var cohesion_radius = 1000
-@export var cohesion_strength = 1
+@export var cohesion_strength = 5
 @export var goal_seeking_strength = 2
 @export var risk_aversion_strength = 2
 @export var max_speed = 100.0
@@ -76,8 +76,7 @@ func get_closest_cows(reference_node: Node2D, num_cows: int, max_distance: int) 
 	for i in range(min(num_cows, distances.size())):
 		closest_cows.append(distances[i]['cow'])
 	
-	print("closest cows:")
-	print(closest_cows)
+	print("self: " + str(self.name) + "\n" + "closest_cows" + str(closest_cows))
 	return closest_cows
 
 
@@ -88,21 +87,21 @@ func calculate_distance_to(target: Node2D) -> float:
 func _physics_process(delta: float):
 	timer = Time.get_ticks_msec()
 	if !lost_cow:
-		$Label.text = var_to_str(velocity.length())
+		#$Label.text = var_to_str(velocity.length())
 		herd_behavior(delta)
 	elif lost_cow:
 		print("lost")
 		#behavior_wander(delta)
 
-
+ 
 func herd_behavior(delta):
 	if player:
 		neighbors = get_closest_cows(self, 2, boids_distance)
-		#var player_push = behavior_player_push(delta)
+		var player_push = behavior_player_push(delta)
 		var cohesion = behavior_cohesion(delta)
 		var alignment = behavior_alignment(delta)
 		var separation = behavior_separation(delta)
-		var target_velocity =  cohesion + alignment + separation
+		var target_velocity =  player_push + cohesion + alignment + separation
 		if target_velocity.length() > max_speed:
 			target_velocity = target_velocity.normalized() * max_speed
 		# Smooth the change in velocity (optional for more fluid motion)
@@ -110,7 +109,7 @@ func herd_behavior(delta):
 		# Final check to ensure cows always move at max speed if not influenced otherwise
 		if velocity.length() < max_speed and target_velocity.length() > 0:
 			velocity = velocity.normalized() * max_speed
-		
+		$Label.text = "cohesion: " + str(round(cohesion.length())) + "\n" + "alignment: " + str(round(alignment.length())) + "\n" +"separation: " + str(round(separation.length())) + "\n" +"player_push: " + str(round(player_push.length()))
 		move_and_slide()
 		raycast.rotation = velocity.angle()
 

@@ -46,8 +46,8 @@ animations = [{
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_5gamn"]
-radius = 38.64
-height = 120.0
+radius = 0.005
+height = 0.01
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_q11j3"]
 radius = 1000.0
@@ -74,6 +74,7 @@ shape = SubResource("CapsuleShape2D_5gamn")
 visible = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="herdArea"]
+visible = false
 shape = SubResource("CircleShape2D_q11j3")
 
 [node name="Label" type="Label" parent="."]

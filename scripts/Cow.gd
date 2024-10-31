@@ -60,6 +60,7 @@ func _ready():
 
 
 func get_closest_cows(reference_node: Node2D, num_cows: int, max_distance: int) -> Array:
+	var closest_cows = []
 	var distances = []
 	var reference_node_position = reference_node.position
 	# Loop through all cows, but ignore the reference node (current cow itself)
@@ -75,6 +76,7 @@ func get_closest_cows(reference_node: Node2D, num_cows: int, max_distance: int) 
 	for i in range(min(num_cows, distances.size())):
 		closest_cows.append(distances[i]['cow'])
 	
+	print("closest cows:")
 	print(closest_cows)
 	return closest_cows
 
@@ -96,17 +98,15 @@ func _physics_process(delta: float):
 func herd_behavior(delta):
 	if player:
 		neighbors = get_closest_cows(self, 2, boids_distance)
-		var player_push = behavior_player_push(delta)
+		#var player_push = behavior_player_push(delta)
 		var cohesion = behavior_cohesion(delta)
 		var alignment = behavior_alignment(delta)
 		var separation = behavior_separation(delta)
-		var target_velocity = player_push + cohesion + alignment + separation
+		var target_velocity =  cohesion + alignment + separation
 		if target_velocity.length() > max_speed:
 			target_velocity = target_velocity.normalized() * max_speed
-
 		# Smooth the change in velocity (optional for more fluid motion)
 		velocity = velocity.lerp(target_velocity, 0.5)
-
 		# Final check to ensure cows always move at max speed if not influenced otherwise
 		if velocity.length() < max_speed and target_velocity.length() > 0:
 			velocity = velocity.normalized() * max_speed
@@ -145,22 +145,20 @@ func behavior_separation(delta):
 		if distance <= separation_radius:
 			var ratio = clamp((boid.global_position - global_position).length() / separation_radius, 0.0, 1.0)
 			direction -= (boid.global_position - global_position).normalized() * (1 / ratio)
-	#velocity = direction.normalized() * speed
-	#return velocity
+	#return velocity as a variable named separation
 	var separation = direction.normalized() * speed * separation_strength
 	return separation
 
 func behavior_cohesion(delta):
 	var direction = Vector2.ZERO
-	var boids_in_range = []
 	var center_of_mass = Vector2.ZERO
 	
 	# Calculate the center of mass of nearby boids
 	if neighbors.size() > 0:
-		for boid in boids_in_range:
+		for boid in neighbors:
 			center_of_mass += boid.global_position
 		
-		center_of_mass /= boids_in_range.size()  # Get the average position
+		center_of_mass /= neighbors.size()  # Get the average position
 		
 		# Steer towards the center of mass
 		direction = (center_of_mass - global_position).normalized()

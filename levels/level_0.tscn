@@ -97,5 +97,5 @@ position = Vector2(1091, 750)
 y_sort_enabled = true
 position = Vector2(-1675, 1660)
 
-[connection signal="lasso" from="Walls/Goblin" to="Walls/Cow12" method="_on_goblin_lasso"]
 [connection signal="lasso" from="Walls/Goblin" to="Walls/Cow12" method="_on_lasso"]
+[connection signal="lasso" from="Walls/Goblin" to="Walls/Cow12" method="_on_goblin_lasso"]

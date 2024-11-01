@@ -6,7 +6,7 @@ class_name Cow
 @export var lost_cow: bool = false
 @export var avoid_distance: float = 500.0  # Distance to start avoiding
 @export var boids_distance: float = 500.0
-@export var push_strength = 2
+@export var push_strength = 1
 @export var player_push_strength = 1
 @export var dog_push_strength = 1
 @export var separation_radius = 200

@@ -29,7 +29,7 @@ layer_0/tile_data = PackedInt32Array(1179672, 2, 0, 1179673, 2, 0, 1179674, 2, 0
 
 [node name="Goblin" parent="Walls" instance=ExtResource("3_goh56")]
 y_sort_enabled = true
-position = Vector2(453, 705)
+position = Vector2(342, 840)
 
 [node name="Cow12" parent="Walls" groups=["boids"] instance=ExtResource("7_nnm0e")]
 y_sort_enabled = true

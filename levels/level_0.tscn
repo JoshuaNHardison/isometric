@@ -1,11 +1,19 @@
-[gd_scene load_steps=7 format=3 uid="uid://dv2cso2ski8ff"]
+[gd_scene load_steps=10 format=3 uid="uid://dv2cso2ski8ff"]
 
 [ext_resource type="TileSet" uid="uid://ceswxvl27cesm" path="res://tileset/tileset.tres" id="1_i3vpv"]
 [ext_resource type="PackedScene" uid="uid://ccn0ixs27fyki" path="res://scenes/dog.tscn" id="3_3apsh"]
 [ext_resource type="PackedScene" uid="uid://bqpkxht3mx8l8" path="res://scenes/goblin.tscn" id="3_goh56"]
 [ext_resource type="PackedScene" uid="uid://6tn3hqkqymni" path="res://decorations/bone_pile_1.tscn" id="6_flwew"]
 [ext_resource type="PackedScene" path="res://decorations/coin_pile.tscn" id="7_87dpn"]
+[ext_resource type="PackedScene" uid="uid://d0b7num7tygxh" path="res://blender/frog.blend" id="7_bsks5"]
 [ext_resource type="PackedScene" uid="uid://bewfnje1mnevg" path="res://scenes/cow.tscn" id="7_nnm0e"]
+[ext_resource type="Texture2D" uid="uid://cuuhmisnjynmi" path="res://blender/frog_UV_AO.png" id="8_7330d"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5c63n"]
+resource_local_to_scene = true
+albedo_texture = ExtResource("8_7330d")
+albedo_texture_force_srgb = true
+point_size = 29.8
 
 [node name="level_0" type="Node2D"]
 position = Vector2(131, -56)
@@ -61,21 +69,6 @@ visible = false
 y_sort_enabled = true
 position = Vector2(902, 895)
 
-[node name="EnemyPatrolPath" type="Node2D" parent="."]
-visible = false
-y_sort_enabled = true
-
-[node name="Marker2D" type="Marker2D" parent="EnemyPatrolPath"]
-
-[node name="Marker2D2" type="Marker2D" parent="EnemyPatrolPath"]
-position = Vector2(848, 324)
-
-[node name="Marker2D3" type="Marker2D" parent="EnemyPatrolPath"]
-position = Vector2(847, 0)
-
-[node name="Marker2D4" type="Marker2D" parent="EnemyPatrolPath"]
-position = Vector2(381, -89)
-
 [node name="bone_pile4" parent="." groups=["risks"] instance=ExtResource("6_flwew")]
 visible = false
 position = Vector2(-8.24988, 959.957)
@@ -97,5 +90,51 @@ position = Vector2(1091, 750)
 y_sort_enabled = true
 position = Vector2(-1675, 1660)
 
+[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
+offset_left = 513.0
+offset_top = -1.0
+offset_right = 713.0
+offset_bottom = 511.0
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
+transparent_bg = true
+handle_input_locally = false
+scaling_3d_scale = 0.75
+size = Vector2i(256, 512)
+render_target_update_mode = 4
+
+[node name="frog" parent="SubViewportContainer/SubViewport" instance=ExtResource("7_bsks5")]
+
+[node name="Light" parent="SubViewportContainer/SubViewport/frog" index="0"]
+visible = false
+
+[node name="Camera" parent="SubViewportContainer/SubViewport/frog" index="1"]
+transform = Transform3D(-0.71934, -0.143241, 0.67973, 8.5544e-08, 0.978509, 0.206204, 0.694658, -0.148331, 0.70388, 4.86897, 1.92752, 5.01949)
+current = true
+fov = 32.2
+
+[node name="Spot" parent="SubViewportContainer/SubViewport/frog" index="2"]
+visible = false
+
+[node name="Skeleton3D" parent="SubViewportContainer/SubViewport/frog/Armature" index="0"]
+bones/2/rotation = Quaternion(0.189121, -8.68932e-05, 0.00150292, 0.981953)
+bones/5/rotation = Quaternion(0.000469309, -0.00114408, -0.723949, 0.689852)
+bones/6/rotation = Quaternion(0.0199598, -0.00371522, -0.201999, 0.979175)
+bones/10/rotation = Quaternion(-0.000662785, -0.0017201, 0.708915, 0.705292)
+bones/11/rotation = Quaternion(0.00363644, 0.00104743, 0.228817, 0.973462)
+bones/14/rotation = Quaternion(0.653616, 0.271407, 0.652946, -0.269788)
+bones/15/rotation = Quaternion(-0.335396, -0.000471887, -0.000993552, 0.942077)
+bones/16/rotation = Quaternion(-0.0316841, -0.000536396, -0.0179083, 0.999337)
+bones/17/rotation = Quaternion(-0.00810876, 1.96509e-05, -0.552013, 0.833796)
+bones/18/rotation = Quaternion(-0.653016, 0.269958, 0.653546, 0.271238)
+bones/19/rotation = Quaternion(-0.324392, -0.0155132, 0.0061716, 0.945775)
+bones/20/rotation = Quaternion(-0.0409791, 0.0165439, 0.0135257, 0.998931)
+bones/21/rotation = Quaternion(-0.00806163, 2.81841e-05, 0.553652, 0.832709)
+
+[node name="Cube" parent="SubViewportContainer/SubViewport/frog/Armature/Skeleton3D" index="0"]
+surface_material_override/0 = SubResource("StandardMaterial3D_5c63n")
+
 [connection signal="lasso" from="Walls/Goblin" to="Walls/Cow12" method="_on_lasso"]
 [connection signal="lasso" from="Walls/Goblin" to="Walls/Cow12" method="_on_goblin_lasso"]
+
+[editable path="SubViewportContainer/SubViewport/frog"]

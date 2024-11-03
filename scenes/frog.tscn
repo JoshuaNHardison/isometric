@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://wvmduqpq6v3"]
+
+[ext_resource type="PackedScene" uid="uid://d0b7num7tygxh" path="res://blender/frog.blend" id="1_kjn3w"]
+[ext_resource type="Texture2D" uid="uid://cuuhmisnjynmi" path="res://blender/frog_UV_AO.png" id="2_iaoss"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5c6pg"]
+albedo_texture = ExtResource("2_iaoss")
+albedo_texture_force_srgb = true
+
+[node name="frog" instance=ExtResource("1_kjn3w")]
+
+[node name="Light" parent="." index="0"]
+visible = false
+
+[node name="Spot" parent="." index="2"]
+visible = false
+
+[node name="Cube" parent="Armature/Skeleton3D" index="0"]
+surface_material_override/0 = SubResource("StandardMaterial3D_5c6pg")

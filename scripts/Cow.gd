@@ -174,18 +174,17 @@ func behavior_cohesion(delta):
 	var cohesion = direction * speed * cohesion_strength
 	return cohesion #return 
 
-func center_of_mass():
-	var boids_in_range = []
+func _center_of_mass():
+	var boids_in_range = get_closest_cows(self, 4, boids_distance)
 	var center_of_mass = Vector2.ZERO
-	for boid in CowManager.all_boids:
-			if boid != self and (boid.global_position - global_position).length() <= boids_radius:
-				boids_in_range.append(boid)
-	if boids_in_range.size() > 0:
-		for boid in boids_in_range:
-			center_of_mass += boid.global_position
-		center_of_mass /= boids_in_range.size()
-		return center_of_mass
-	return player.position
+	var count = boids_in_range.size()
+	
+	if count == 0:
+		return Vector2.ZERO
+	for boid in boids_in_range:
+		center_of_mass += boid.global_position
+	center_of_mass /= boids_in_range.size()
+	return center_of_mass
 
 ##func behavior_dog_push(delta):
 	###dog push cow logic
@@ -312,57 +311,58 @@ func behavior_player_push(delta):
 		#velocity = velocity.lerp(goal_velocity, smooth_factor)
 	#return velocity
 
-#should i connect the lasso signal to the "teleport" function? 
+#this should be in the cow manager function. get closest cow to player then teleport
 func _on_lasso():
-	print("the player lasso'd")
-	original_cohesion_strength = cohesion_strength
-	cohesion_strength *= 4
-	var timer = Timer.new()
-	timer.wait_time = 2.0
-	timer.one_shot = true
-	timer.connect("timeout", _step2_lasso)  # Connect timer to reset function
-	add_child(timer)
-	timer.start()
-	print("cohesion str: " + str(cohesion_strength))
-	#var closest_cow = get_closest_cows(dog, 1, 200)
-	#if closest_cow.size() > 0:
-		#print("Inside _on_lasso() -> Closest cow: ", closest_cow[0])
-		#var cow_position = closest_cow[0].position
-		#var boids_center = center_of_mass()
-		#var direction = (boids_center - self.global_position).normalized()
-		#closest_cow[0].position += direction * speed 
+	var com = _center_of_mass()
+	print("center of mass:" + str(com))
+	self.global_position = com
 
-func _step2_lasso():
-	cohesion_strength = original_cohesion_strength
-	print("cohesion str: " + str(cohesion_strength))
-	
-	original_separation_strength = separation_strength
-	separation_strength += 2
-	
-	var timer = Timer.new()
-	timer.wait_time = 2.0
-	timer.one_shot = true
-	timer.connect("timeout", _step3_lasso)
-	add_child(timer)
-	timer.start()
-	print("cohesion str: " + str(cohesion_strength))
-
-
-func _step3_lasso():
-	separation_strength = original_separation_strength
-	print("separation_strength: " + str(separation_strength))
-
-
+#func _on_lasso():
+	#print("the player lasso'd")
+	#var com = _center_of_mass()
+	#print("center of mass:" + str(com))
+	#original_cohesion_strength = cohesion_strength
+	#cohesion_strength *= 4
+	#var timer = Timer.new()
+	#timer.wait_time = 2.0
+	#timer.one_shot = true
+	#timer.connect("timeout", _step2_lasso)  # Connect timer to reset function
+	#add_child(timer)
+	#timer.start()
+	##var closest_cow = get_closest_cows(dog, 1, 200)
+	##if closest_cow.size() > 0:
+		##print("Inside _on_lasso() -> Closest cow: ", closest_cow[0])
+		##var cow_position = closest_cow[0].position
+		##var boids_center = center_of_mass()
+		##var direction = (boids_center - self.global_position).normalized()
+		##closest_cow[0].position += direction * speed 
+#func _step2_lasso():
+	#cohesion_strength = original_cohesion_strength
+	#print("cohesion str: " + str(cohesion_strength))
+	#
+	#original_separation_strength = separation_strength
+	#separation_strength += 2
+	#
+	#var timer = Timer.new()
+	#timer.wait_time = 2.0
+	#timer.one_shot = true
+	#timer.connect("timeout", _step3_lasso)
+	#add_child(timer)
+	#timer.start()
+#func _step3_lasso():
+	#separation_strength = original_separation_strength
 #
-#func _on_dog_bark():
-	#print("The dog barked! React accordingly.")
-	#var closest_cows = get_closest_cows(dog, 1, 200)
-	##add a distance check for closest cow
-	#if closest_cows.size() > 0:
-		#print("Closest cow: ", closest_cows[0])
-		#closest_cows[0].speed += 200
-	#else:
-		#print("No cows found.")
+#
+##
+##func _on_dog_bark():
+	##print("The dog barked! React accordingly.")
+	##var closest_cows = get_closest_cows(dog, 1, 200)
+	###add a distance check for closest cow
+	##if closest_cows.size() > 0:
+		##print("Closest cow: ", closest_cows[0])
+		##closest_cows[0].speed += 200
+	##else:
+		##print("No cows found.")
 
 
 

@@ -32,6 +32,9 @@ class_name Cow
 
 @onready var closest_cows = []
 @onready var neighbors = []
+@onready var isHerdingActive:bool = false
+var original_cohesion_strength = cohesion_strength
+var original_separation_strength = separation_strength
 var timer = 0.0
 var player_position
 var dog_position
@@ -51,7 +54,6 @@ func _ready():
 	var mob_types = anim.sprite_frames.get_animation_names()
 	anim.play(mob_types[randi() % mob_types.size()])
 	
-	#create cow manager that only runs once per game instance
 	
 	herdArea.connect("area_entered", Callable(self, "_on_area_entered"))
 	herdArea.connect("area_exited", Callable(self, "_on_area_exited"))
@@ -76,7 +78,7 @@ func get_closest_cows(reference_node: Node2D, num_cows: int, max_distance: int) 
 	for i in range(min(num_cows, distances.size())):
 		closest_cows.append(distances[i]['cow'])
 	
-	print("self: " + str(self.name) + "\n" + "closest_cows" + str(closest_cows))
+	#print("self: " + str(self.name) + "\n" + "closest_cows" + str(closest_cows) + "\n" + "\n")
 	return closest_cows
 
 
@@ -86,14 +88,22 @@ func calculate_distance_to(target: Node2D) -> float:
 
 func _physics_process(delta: float):
 	timer = Time.get_ticks_msec()
-	if !lost_cow:
-		#$Label.text = var_to_str(velocity.length())
+	distance_to_player = calculate_distance_to(player)
+	updateHerdingStatus()
+	if isHerdingActive == true:
 		herd_behavior(delta)
 	elif lost_cow:
 		print("lost")
 		#behavior_wander(delta)
 
- 
+func updateHerdingStatus():
+	#get distance to player
+	if distance_to_player < 800:
+		isHerdingActive = true
+	else:
+		isHerdingActive = false
+	return isHerdingActive
+
 func herd_behavior(delta):
 	if player:
 		neighbors = get_closest_cows(self, 2, boids_distance)
@@ -302,12 +312,18 @@ func behavior_player_push(delta):
 		#velocity = velocity.lerp(goal_velocity, smooth_factor)
 	#return velocity
 
-
-
 #should i connect the lasso signal to the "teleport" function? 
 func _on_lasso():
 	print("the player lasso'd")
-	#print(var_to_str(all_boids[0]))
+	original_cohesion_strength = cohesion_strength
+	cohesion_strength *= 4
+	var timer = Timer.new()
+	timer.wait_time = 2.0
+	timer.one_shot = true
+	timer.connect("timeout", _step2_lasso)  # Connect timer to reset function
+	add_child(timer)
+	timer.start()
+	print("cohesion str: " + str(cohesion_strength))
 	#var closest_cow = get_closest_cows(dog, 1, 200)
 	#if closest_cow.size() > 0:
 		#print("Inside _on_lasso() -> Closest cow: ", closest_cow[0])
@@ -315,6 +331,27 @@ func _on_lasso():
 		#var boids_center = center_of_mass()
 		#var direction = (boids_center - self.global_position).normalized()
 		#closest_cow[0].position += direction * speed 
+
+func _step2_lasso():
+	cohesion_strength = original_cohesion_strength
+	print("cohesion str: " + str(cohesion_strength))
+	
+	original_separation_strength = separation_strength
+	separation_strength += 2
+	
+	var timer = Timer.new()
+	timer.wait_time = 2.0
+	timer.one_shot = true
+	timer.connect("timeout", _step3_lasso)
+	add_child(timer)
+	timer.start()
+	print("cohesion str: " + str(cohesion_strength))
+
+
+func _step3_lasso():
+	separation_strength = original_separation_strength
+	print("separation_strength: " + str(separation_strength))
+
 
 #
 #func _on_dog_bark():

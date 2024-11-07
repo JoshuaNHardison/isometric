@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://wvmduqpq6v3"]
+[gd_scene load_steps=5 format=3 uid="uid://wvmduqpq6v3"]
 
 [ext_resource type="PackedScene" uid="uid://d0b7num7tygxh" path="res://blender/frog.blend" id="1_kjn3w"]
 [ext_resource type="Texture2D" uid="uid://cuuhmisnjynmi" path="res://blender/frog_UV_AO.png" id="2_iaoss"]
@@ -7,13 +7,49 @@
 albedo_texture = ExtResource("2_iaoss")
 albedo_texture_force_srgb = true
 
+[sub_resource type="Environment" id="Environment_3n13b"]
+
 [node name="frog" instance=ExtResource("1_kjn3w")]
 
 [node name="Light" parent="." index="0"]
 visible = false
 
+[node name="Camera" parent="." index="1"]
+current = true
+
 [node name="Spot" parent="." index="2"]
 visible = false
 
+[node name="Skeleton3D" parent="Armature" index="0"]
+bones/0/rotation = Quaternion(-4.84615e-08, -1.04495e-07, 0.0121361, 0.999926)
+bones/1/rotation = Quaternion(0.0862243, -0.00122028, -0.014022, 0.996176)
+bones/2/rotation = Quaternion(0.188356, -2.91898e-08, 0.00167801, 0.982099)
+bones/3/rotation = Quaternion(-0.500864, -0.0021088, 0.012961, 0.865426)
+bones/4/rotation = Quaternion(-1.16484e-08, 8.7615e-08, -0.554229, 0.832364)
+bones/6/rotation = Quaternion(0.0041851, -0.000388831, -0.0526492, 0.998604)
+bones/7/rotation = Quaternion(0.0389822, -0.00766832, -0.0811006, 0.995914)
+bones/7/scale = Vector3(1, 1, 1)
+bones/8/rotation = Quaternion(0.636445, -0.00406339, -0.0638268, 0.768666)
+bones/8/scale = Vector3(1, 1, 1)
+bones/9/rotation = Quaternion(1.02912e-07, 8.72439e-08, 0.533864, 0.84557)
+bones/9/scale = Vector3(1, 1, 1)
+bones/10/rotation = Quaternion(-4.32531e-08, -3.948e-08, 0.61253, 0.790447)
+bones/11/rotation = Quaternion(0.0041851, 0.00038883, 0.0526492, 0.998604)
+bones/12/rotation = Quaternion(0.0389822, 0.00766832, 0.0811006, 0.995914)
+bones/13/rotation = Quaternion(0.636445, 0.00406336, 0.0638268, 0.768666)
+bones/13/scale = Vector3(1, 1, 1)
+bones/14/rotation = Quaternion(0.653282, 0.270598, 0.653282, -0.270598)
+bones/14/scale = Vector3(1, 1, 1)
+bones/15/rotation = Quaternion(-0.335396, -2.98821e-08, 2.70783e-08, 0.942077)
+bones/16/rotation = Quaternion(-0.0316846, -0.000630036, -0.018953, 0.999318)
+bones/17/rotation = Quaternion(-0.00808976, 9.61139e-08, -0.55273, 0.833321)
+bones/18/scale = Vector3(1, 1, 1)
+bones/19/rotation = Quaternion(-0.335396, 2.98821e-08, -2.70783e-08, 0.942077)
+bones/20/rotation = Quaternion(-0.0316846, 0.000630036, 0.018953, 0.999318)
+bones/21/rotation = Quaternion(-0.00808976, -9.61139e-08, 0.55273, 0.833321)
+
 [node name="Cube" parent="Armature/Skeleton3D" index="0"]
 surface_material_override/0 = SubResource("StandardMaterial3D_5c6pg")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Armature/Skeleton3D/Cube" index="0"]
+environment = SubResource("Environment_3n13b")

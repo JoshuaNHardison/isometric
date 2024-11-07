@@ -11,22 +11,22 @@ z_index = 1
 y_sort_enabled = true
 tile_set = ExtResource("1_hbpbv")
 format = 2
-layer_0/tile_data = PackedInt32Array(131071, 2, 65536, 196607, 2, 65536, 65535, 2, 65536, -1, 2, 65536, -65537, 2, 65536, -131073, 2, 65536, -196608, 2, 65536, -196607, 2, 65536, -196606, 2, 65536, -196605, 2, 65536, -196604, 2, 65536, -196603, 2, 65536, -196602, 2, 65536, -131066, 2, 65536, -65530, 2, 65536, 6, 2, 65536, 65542, 2, 65536, 131078, 2, 65536, 196614, 2, 65536, 327679, 2, 65536, 393215, 2, 65536, 262143, 2, 65536, 262150, 2, 65536)
+layer_0/tile_data = PackedInt32Array(131071, 2, 65536, 196607, 2, 65536, 65535, 2, 65536, -1, 2, 65536, -65537, 2, 65536, -131073, 2, 65536, -196608, 2, 65536, -196607, 2, 65536, -196606, 2, 65536, -196605, 2, 65536, -196604, 2, 65536, -196603, 2, 65536, -196602, 2, 65536, -131066, 2, 65536, -65530, 2, 65536, 6, 2, 65536, 65542, 2, 65536, 131078, 2, 65536, 196614, 2, 65536, 327679, 2, 65536, 393215, 2, 65536, 262143, 2, 65536, 262150, 2, 65536, 393220, 0, 0, 458756, 0, 0, 458757, 0, 0, 524293, 0, 0, 589829, 0, 0, 589830, 0, 0, 589831, 0, 0, 655367, 0, 0, 589832, 0, 0, 524296, 0, 0, 458760, 0, 0, 458759, 0, 0, 393223, 0, 0, 393222, 0, 0, 458758, 0, 0, 524294, 0, 0, 655366, 0, 0, 655368, 0, 0, 589833, 0, 0, 524295, 0, 0, 589828, 0, 0, 655364, 0, 0, 655365, 0, 0, 524292, 0, 0, 524291, 0, 0, 589827, 0, 0, 393221, 0, 0, 393219, 0, 0, 458755, 0, 0, 655363, 0, 0, 655369, 0, 0, 524297, 0, 0, 458761, 0, 0, 393224, 0, 0, 393225, 0, 0)
 
-[node name="Cow" parent="TileMap" groups=["boids"] instance=ExtResource("1_l0s62")]
-y_sort_enabled = true
-position = Vector2(247, 243)
-
-[node name="Goblin" parent="TileMap" instance=ExtResource("2_blomu")]
+[node name="Goblin" parent="." instance=ExtResource("2_blomu")]
 y_sort_enabled = true
 position = Vector2(164, 78)
 
-[node name="Cow2" parent="TileMap" groups=["boids"] instance=ExtResource("1_l0s62")]
+[node name="Cow2" parent="." groups=["boids"] instance=ExtResource("1_l0s62")]
 y_sort_enabled = true
 position = Vector2(116, 177)
 
-[node name="Cow3" parent="TileMap" groups=["boids"] instance=ExtResource("1_l0s62")]
+[node name="Cow3" parent="." groups=["boids"] instance=ExtResource("1_l0s62")]
 y_sort_enabled = true
 position = Vector2(279, 146)
 
-[connection signal="lasso" from="TileMap/Goblin" to="TileMap/Cow" method="_on_goblin_lasso"]
+[node name="Cow" parent="." groups=["boids"] instance=ExtResource("1_l0s62")]
+y_sort_enabled = true
+position = Vector2(247, 243)
+
+[connection signal="lasso" from="Goblin" to="Cow" method="_on_goblin_lasso"]

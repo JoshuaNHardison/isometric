@@ -1,3 +1,4 @@
+WorldEnvironment
 SubViewport
 SubViewportContainer
 Node2D
@@ -11,5 +12,3 @@ RayCast2D
 Marker2D
 Area2D
 AnimatedSprite2D
-VisibleOnScreenEnabler2D
-RigidBody2D

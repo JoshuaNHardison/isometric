@@ -1,6 +1,13 @@
-[gd_resource type="TileSet" load_steps=7 format=3 uid="uid://ceswxvl27cesm"]
+[gd_resource type="TileSet" load_steps=8 format=3 uid="uid://ceswxvl27cesm"]
 
 [ext_resource type="Texture2D" uid="uid://dup8jrb6ajapx" path="res://tileset/isotiles.png" id="1"]
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_4jq8g"]
+vertices = PackedVector2Array(64, 0, 0, 32, -64, 0, 0, -32)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(0, -32, -64, 0, 0, 32, 64, 0)])
+source_geometry_group_name = &"navigation_polygon_source_group"
+agent_radius = 0.0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_s3w07"]
 texture = ExtResource("1")
@@ -10,6 +17,7 @@ texture_region_size = Vector2i(135, 105)
 0:0/0 = 0
 0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 0:0/0/physics_layer_0/angular_velocity = 0.0
+0:0/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_4jq8g")
 0:0/1 = 1
 0:0/1/flip_h = true
 0:0/1/physics_layer_0/linear_velocity = Vector2(0, 0)
@@ -241,6 +249,7 @@ tile_shape = 1
 tile_layout = 5
 tile_size = Vector2i(128, 64)
 physics_layer_0/collision_layer = 1
+navigation_layer_0/layers = 1
 sources/0 = SubResource("TileSetAtlasSource_s3w07")
 sources/1 = SubResource("TileSetAtlasSource_fa1vh")
 sources/2 = SubResource("TileSetAtlasSource_xpb3e")

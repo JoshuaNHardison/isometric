@@ -4,6 +4,8 @@ class_name player
 
 signal hit
 signal lasso
+signal tighter
+signal looser
 
 const MOTION_SPEED = 300 # Pixels/second.
 
@@ -63,10 +65,21 @@ func update_animation(anim_set):
 
 func _input(event: InputEvent):
 	if event is InputEventKey and event.keycode == KEY_C and event.pressed:
+		print(get_path())
 		emit_signal("lasso") 
 		$Label.text = "lasso"
 		await get_tree().create_timer(1.0).timeout
 		$Label.text = ""
+	if event is InputEventKey and event.keycode == KEY_Z and event.pressed:
+		emit_signal("tighter")
+		$Label.text = "tighter"
+		await get_tree().create_timer(1.0).timeout
+		$Label.text = ""
+	if event is InputEventKey and event.keycode == KEY_X and event.pressed:
+		emit_signal("looser")
+		$Label.text = "looser"
+		await get_tree().create_timer(1.0).timeout
+		$Label.text = ""			
 
 
 

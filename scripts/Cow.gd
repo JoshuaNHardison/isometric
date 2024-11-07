@@ -106,6 +106,7 @@ func updateHerdingStatus():
 
 func herd_behavior(delta):
 	if player:
+		print(cohesion_strength)
 		neighbors = get_closest_cows(self, 2, boids_distance)
 		var player_push = behavior_player_push(delta)
 		var cohesion = behavior_cohesion(delta)
@@ -312,10 +313,10 @@ func behavior_player_push(delta):
 	#return velocity
 
 #this should be in the cow manager function. get closest cow to player then teleport
-func _on_lasso():
-	var com = _center_of_mass()
-	print("center of mass:" + str(com))
-	self.global_position = com
+#func _on_lasso():
+	#var com = _center_of_mass()
+	#print("center of mass:" + str(com))
+	#self.global_position = com
 
 #func _on_lasso():
 	#print("the player lasso'd")

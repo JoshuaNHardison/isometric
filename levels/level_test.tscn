@@ -29,4 +29,4 @@ position = Vector2(279, 146)
 y_sort_enabled = true
 position = Vector2(247, 243)
 
-[connection signal="lasso" from="Goblin" to="Cow" method="_on_goblin_lasso"]
+[connection signal="lasso" from="Goblin" to="Cow3" method="_on_lasso"]

@@ -45,6 +45,8 @@ var distance_to_dog
 
 
 
+
+
 #signal on each cow and the player finds all cows in yelling radius and the cow emits a signal "cow.emitsignal signal could be player_yelled_at_cow
 #cow has a function called increased scared/emotion. the dog and the human are responsible for finding the cows and running that function on them
 #each emotion has a flag or boolean value
@@ -312,11 +314,28 @@ func behavior_player_push(delta):
 		#velocity = velocity.lerp(goal_velocity, smooth_factor)
 	#return velocity
 
+
+
 #this should be in the cow manager function. get closest cow to player then teleport
 #func _on_lasso():
 	#var com = _center_of_mass()
 	#print("center of mass:" + str(com))
 	#self.global_position = com
+
+func _on_lasso():
+	print("the player lasso'd")
+	original_cohesion_strength = cohesion_strength
+	self.cohesion_strength *= 4
+	var timer = Timer.new()
+	timer.wait_time = 2.0
+	timer.one_shot = true
+	timer.connect("timeout", _step2_lasso)
+	add_child(timer)
+	timer.start()
+
+func _step2_lasso():
+	self.cohesion_strength = original_cohesion_strength
+	print("step2")
 
 #func _on_lasso():
 	#print("the player lasso'd")
@@ -337,6 +356,7 @@ func behavior_player_push(delta):
 		##var boids_center = center_of_mass()
 		##var direction = (boids_center - self.global_position).normalized()
 		##closest_cow[0].position += direction * speed 
+
 #func _step2_lasso():
 	#cohesion_strength = original_cohesion_strength
 	#print("cohesion str: " + str(cohesion_strength))
@@ -352,9 +372,9 @@ func behavior_player_push(delta):
 	#timer.start()
 #func _step3_lasso():
 	#separation_strength = original_separation_strength
-#
-#
-##
+
+
+
 ##func _on_dog_bark():
 	##print("The dog barked! React accordingly.")
 	##var closest_cows = get_closest_cows(dog, 1, 200)

@@ -2,6 +2,8 @@ extends CharacterBody2D
 
 class_name player
 
+@onready var cow_manager = $CowManager
+
 signal hit
 signal lasso
 signal tighter
@@ -65,8 +67,7 @@ func update_animation(anim_set):
 
 func _input(event: InputEvent):
 	if event is InputEventKey and event.keycode == KEY_C and event.pressed:
-		print(get_path())
-		emit_signal("lasso") 
+		emit_signal("lasso")
 		$Label.text = "lasso"
 		await get_tree().create_timer(1.0).timeout
 		$Label.text = ""

@@ -2,8 +2,10 @@ extends Node2D
 
 var all_boids = []
 var cow = Cow
-@export var playerNode = CharacterBody2D
-@onready var player = get_node("/root/Walls/Goblin") # Assuming Player is an autoload or global node
+
+
+
+#@onready var player = get_node('Walls/Goblin')
 #var all_cows = []
 
 func _ready():
@@ -11,7 +13,7 @@ func _ready():
 	print(player)
 	await(get_tree().process_frame)
 	populate_all_boids()
-	
+	connect("lasso", Callable(self, "_on_lasso"))
 
 
 func populate_all_boids():
@@ -24,8 +26,10 @@ func populate_all_boids():
 func _on_lasso():
 	print("the player lasso'd")
 	for boid in all_boids:
-		boid.original_cohesion_strength = cow.cohesion_strength
-		boid.cohesion_strength *= 4
+		if boid is Cow:
+			boid.original_cohesion_strength = boid.cohesion_strength  # Save the original value
+			boid.cohesion_strength *= 4  # Increase the cohesion strength (change as needed)
+			print("Updated cohesion_strength to: ", boid.cohesion_strength)
 	#var timer = Timer.new()
 	#timer.wait_time = 2.0
 	#timer.one_shot = true

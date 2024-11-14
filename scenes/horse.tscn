@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://c1ayogtyw40pv"]
+
+[ext_resource type="Script" path="res://Horse.gd" id="1_4ywir"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_p3s73"]
+
+[node name="horse" type="CharacterBody2D"]
+script = ExtResource("1_4ywir")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_p3s73")

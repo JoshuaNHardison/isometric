@@ -78,7 +78,7 @@ func _input(event: InputEvent):
 		emit_signal("looser")
 		$Label.text = "looser"
 		await get_tree().create_timer(1.0).timeout
-		$Label.text = ""			
+		$Label.text = ""
 
 
 

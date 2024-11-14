@@ -108,7 +108,6 @@ func updateHerdingStatus():
 
 func herd_behavior(delta):
 	if player:
-		print(cohesion_strength)
 		neighbors = get_closest_cows(self, 2, boids_distance)
 		var player_push = behavior_player_push(delta)
 		var cohesion = behavior_cohesion(delta)
@@ -322,10 +321,39 @@ func behavior_player_push(delta):
 	#print("center of mass:" + str(com))
 	#self.global_position = com
 
+func _on_tighter():
+	print("the player said tighter")
+	original_cohesion_strength = cohesion_strength
+	self.cohesion_strength += 4
+	var timer = Timer.new()
+	timer.wait_time = 2.0
+	timer.one_shot = true
+	timer.connect("timeout", _step2_tighter)
+	add_child(timer)
+	timer.start()
+
+func _step2_tighter():
+	self.cohesion_strength = original_cohesion_strength
+
+func _on_looser():
+	print("the player said looser")
+	original_separation_strength = separation_strength
+	self.separation_strength += 4
+	var timer = Timer.new()
+	timer.wait_time = 2.0
+	timer.one_shot = true
+	timer.connect("timeout", _step2_looser)
+	add_child(timer)
+	timer.start()
+
+func _step2_looser():
+	self.separation_strength = original_separation_strength
+
 func _on_lasso():
 	print("the player lasso'd")
 	original_cohesion_strength = cohesion_strength
-	self.cohesion_strength *= 4
+	self.cohesion_strength += 4
+	print(self.cohesion_strength)
 	var timer = Timer.new()
 	timer.wait_time = 2.0
 	timer.one_shot = true
@@ -335,6 +363,7 @@ func _on_lasso():
 
 func _step2_lasso():
 	self.cohesion_strength = original_cohesion_strength
+	print(self.cohesion_strength)
 	print("step2")
 
 #func _on_lasso():

@@ -3,5 +3,6 @@ res://tileset/tileset.tres
 res://scenes/cow.tscn
 res://scenes/goblin.tscn
 res://levels/level_test.tscn
-res://scripts/goblin.gd
 res://scripts/Cow.gd
+res://scripts/cow_manager.gd
+res://scripts/goblin.gd

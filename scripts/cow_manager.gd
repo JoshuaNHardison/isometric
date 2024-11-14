@@ -10,7 +10,6 @@ var cow = Cow
 
 func _ready():
 	# Delay populate call until the scene tree is ready
-	print(player)
 	await(get_tree().process_frame)
 	populate_all_boids()
 	connect("lasso", Callable(self, "_on_lasso"))
@@ -23,13 +22,13 @@ func populate_all_boids():
 			all_boids.append(cow)
 
 
-func _on_lasso():
-	print("the player lasso'd")
-	for boid in all_boids:
-		if boid is Cow:
-			boid.original_cohesion_strength = boid.cohesion_strength  # Save the original value
-			boid.cohesion_strength *= 4  # Increase the cohesion strength (change as needed)
-			print("Updated cohesion_strength to: ", boid.cohesion_strength)
+#func _on_lasso():
+	#print("the player lasso'd")
+	#for boid in all_boids:
+		#if boid is Cow:
+			#boid.original_cohesion_strength = boid.cohesion_strength  # Save the original value
+			#boid.cohesion_strength *= 4  # Increase the cohesion strength (change as needed)
+			#print("Updated cohesion_strength to: ", boid.cohesion_strength)
 	#var timer = Timer.new()
 	#timer.wait_time = 2.0
 	#timer.one_shot = true

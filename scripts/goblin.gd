@@ -2,8 +2,6 @@ extends CharacterBody2D
 
 class_name player
 
-@onready var cow_manager = $CowManager
-
 signal hit
 signal lasso
 signal tighter
@@ -94,3 +92,8 @@ func start(pos):
 	position = pos
 	show()
 	$CollisionShape2D.disabled = false
+
+func _ready():
+	for cow in get_tree().get_nodes_in_group("boids"):
+		self.tighter.connect(cow._on_tighter)
+		self.looser.connect(cow._on_looser)

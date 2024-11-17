@@ -1,8 +1,9 @@
-[gd_scene load_steps=12 format=3 uid="uid://dv2cso2ski8ff"]
+[gd_scene load_steps=13 format=3 uid="uid://dv2cso2ski8ff"]
 
 [ext_resource type="TileSet" uid="uid://ceswxvl27cesm" path="res://tileset/tileset.tres" id="1_i3vpv"]
 [ext_resource type="PackedScene" uid="uid://ccn0ixs27fyki" path="res://scenes/dog.tscn" id="3_3apsh"]
 [ext_resource type="PackedScene" uid="uid://bqpkxht3mx8l8" path="res://scenes/goblin.tscn" id="3_goh56"]
+[ext_resource type="PackedScene" uid="uid://c1ayogtyw40pv" path="res://scenes/horse.tscn" id="4_eeect"]
 [ext_resource type="PackedScene" uid="uid://6tn3hqkqymni" path="res://decorations/bone_pile_1.tscn" id="6_flwew"]
 [ext_resource type="PackedScene" path="res://decorations/coin_pile.tscn" id="7_87dpn"]
 [ext_resource type="PackedScene" uid="uid://d0b7num7tygxh" path="res://blender/frog.blend" id="7_bsks5"]
@@ -72,6 +73,10 @@ motion_mode = 1
 y_sort_enabled = true
 position = Vector2(378, 663)
 motion_mode = 1
+
+[node name="horse" parent="Walls" instance=ExtResource("4_eeect")]
+y_sort_enabled = true
+position = Vector2(144, 772)
 
 [node name="Dog" parent="Walls" groups=["risks"] instance=ExtResource("3_3apsh")]
 visible = false

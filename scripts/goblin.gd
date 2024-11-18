@@ -8,17 +8,22 @@ signal tighter
 signal looser
 signal mountToggle
 
+@export var max_speed: float = 300.0
+@export var min_speed: float = 0.0
+@export var speed_step: float = 50.0  # How much to increase/decrease speed with each key press
 @export var base_speed = 100.0
 @export var mounted_speed = 300.0
 @export var acceleration = 50.0
 @export var turn_speed = 5.0
 @export var deceleration = 30.0
 
+var current_horse_speed: float = min_speed  # Start at minimum speed
 var isMounted: bool = false
 var current_speed: float
 var momentum: float = 0.0 # Current momentum
 var target_direction = Vector2(1, 0)
 var last_direction = Vector2(1, 0)
+var current_direction
 
 var anim_directions = {
 	"idle": [ # list of [animation name, horizontal flip]
@@ -59,7 +64,6 @@ func _normal_movement(delta):
 	motion = motion.normalized() * current_speed
 	set_velocity(motion)
 	move_and_slide()
-
 	if velocity.length() > 0:
 		last_direction = velocity
 		update_animation("walk")
@@ -67,33 +71,26 @@ func _normal_movement(delta):
 		update_animation("idle")
 
 func _horse_movement(delta):
-	# Horse-like movement system
-	var input_dir = Vector2(
-		Input.get_action_strength("move_right") - Input.get_action_strength("move_left"),
-		Input.get_action_strength("move_down") - Input.get_action_strength("move_up")
-	)
-	if input_dir.length() > 0:
-		target_direction = input_dir.normalized()
+	# Ensure current_direction retains its value or initializes properly
+	if current_direction == null or current_direction == Vector2.ZERO:
+		current_direction = Vector2(1, 0)  # Default to facing right
+	# Adjust speed using W and S keys
+	if Input.is_action_just_pressed("move_up"):  # W key
+		momentum = clamp(momentum + speed_step, min_speed, max_speed)
+	elif Input.is_action_just_pressed("move_down"):  # S key
+		momentum = clamp(momentum - speed_step, min_speed, max_speed)
 
-	# Smooth turning to the target direction
-	var current_direction = velocity.normalized()
-	current_direction = current_direction.lerp(target_direction, turn_speed * delta)
-
-	# Accelerate when input is given
-	if input_dir.length() > 0:
-		momentum += acceleration * delta
-		momentum = min(momentum, mounted_speed)  # Cap at mounted speed
-	else:
-		# Decelerate if no input
-		momentum -= deceleration * delta
-		momentum = max(momentum, 0)  # Prevent negative momentum
+	var turn_input = Input.get_action_strength("move_right") - Input.get_action_strength("move_left")
+	if turn_input != 0:
+		var turn_angle = turn_input * turn_speed * delta  # Adjust the angle based on input and turn speed
+		current_direction = current_direction.rotated(turn_angle).normalized()  # Rotate the direction vector
 
 	# Set velocity based on current direction and momentum
-	set_velocity(current_direction * momentum)
+	velocity = current_direction * momentum
 	move_and_slide()
-
+	print("vel length: " + var_to_str(velocity.length()))
 	# Update animations
-	if momentum > 0:
+	if momentum > min_speed:
 		last_direction = current_direction
 		update_animation("walk")
 	else:

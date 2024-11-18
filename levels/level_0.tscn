@@ -76,7 +76,7 @@ motion_mode = 1
 
 [node name="horse" parent="Walls" instance=ExtResource("4_eeect")]
 y_sort_enabled = true
-position = Vector2(144, 772)
+position = Vector2(288, 886)
 
 [node name="Dog" parent="Walls" groups=["risks"] instance=ExtResource("3_3apsh")]
 visible = false

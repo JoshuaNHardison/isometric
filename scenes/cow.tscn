@@ -82,5 +82,15 @@ offset_right = 40.0
 offset_bottom = 23.0
 text = "test"
 
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+path_desired_distance = 5.0
+target_desired_distance = 5.0
+path_postprocessing = 1
+avoidance_enabled = true
+debug_enabled = true
+debug_use_custom = true
+debug_path_custom_color = Color(1, 0, 0, 1)
+
 [connection signal="area_entered" from="herdArea" to="." method="_on_area_2d_area_entered"]
 [connection signal="area_exited" from="herdArea" to="." method="_on_area_2d_area_exited"]
+[connection signal="velocity_computed" from="NavigationAgent2D" to="." method="_on_navigation_agent_2d_velocity_computed"]

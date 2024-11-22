@@ -116,6 +116,15 @@ func herd_behavior(delta):
 		var target_velocity =  player_push + cohesion + alignment + separation
 		if target_velocity.length() > max_speed:
 			target_velocity = target_velocity.normalized() * max_speed
+		var path_target_position = global_position + target_velocity.normalized() * 500  # Adjust "100" as needed
+		# Set the target position for the NavigationAgent2D
+		$NavigationAgent2D.target_position = path_target_position
+
+		# Get the next path position from NavigationAgent2D
+		var next_position = $NavigationAgent2D.get_next_path_position()
+
+		# Calculate velocity toward the next path position
+		var desired_velocity = (next_position - global_position).normalized() * max_speed
 		# Smooth the change in velocity (optional for more fluid motion)
 		velocity = velocity.lerp(target_velocity, 0.5)
 		# Final check to ensure cows always move at max speed if not influenced otherwise

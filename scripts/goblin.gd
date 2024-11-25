@@ -88,7 +88,6 @@ func _horse_movement(delta):
 	# Set velocity based on current direction and momentum
 	velocity = current_direction * momentum
 	move_and_slide()
-	print("vel length: " + var_to_str(velocity.length()))
 	# Update animations
 	if momentum > min_speed:
 		last_direction = current_direction

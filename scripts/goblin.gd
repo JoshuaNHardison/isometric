@@ -129,7 +129,20 @@ func _input(event: InputEvent):
 		$Label.text = "looser"
 		await get_tree().create_timer(1.0).timeout
 		$Label.text = ""
+	if event is InputEventKey and event.keycode == KEY_Q and event.pressed:
+		swap_cowboy()
+
+func swap_cowboy():
+	var next_cowboy = CowboyManager.get_next_cowboy()
+	if next_cowboy == self:
+		return
+	self.set_process(false)
+	self.set_physics_process(false)
 	
+	next_cowboy.set_process(true)
+	next_cowboy.set_physics_process(true)
+	
+	print("Swapped control to: ", next_cowboy.name)
 
 
 func on_mount(horse: Node):

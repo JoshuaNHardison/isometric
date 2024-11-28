@@ -8,6 +8,8 @@ signal tighter
 signal looser
 signal mountToggle
 
+@onready var horse = $"../horse"
+
 @export var max_speed: float = 300.0
 @export var min_speed: float = 0.0
 @export var speed_step: float = 50.0  # How much to increase/decrease speed with each key press
@@ -24,6 +26,8 @@ var momentum: float = 0.0 # Current momentum
 var target_direction = Vector2(1, 0)
 var last_direction = Vector2(1, 0)
 var current_direction
+
+
 
 var anim_directions = {
 	"idle": [ # list of [animation name, horizontal flip]
@@ -50,6 +54,11 @@ var anim_directions = {
 }
 
 func _physics_process(delta):
+	if Input.is_action_just_pressed("mount_toggle"):
+		if isMounted:
+			on_dismount()
+		else:
+			on_mount(horse)  # Pass the horse Node if necessary
 	if isMounted:
 		_horse_movement(delta)
 	else:
@@ -120,6 +129,7 @@ func _input(event: InputEvent):
 		$Label.text = "looser"
 		await get_tree().create_timer(1.0).timeout
 		$Label.text = ""
+	
 
 
 func on_mount(horse: Node):

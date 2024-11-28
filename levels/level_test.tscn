@@ -29,4 +29,7 @@ position = Vector2(279, 146)
 y_sort_enabled = true
 position = Vector2(247, 243)
 
+[node name="Goblin2" parent="TileMap" instance=ExtResource("2_blomu")]
+visible = false
+
 [connection signal="lasso" from="TileMap/Goblin" to="TileMap/Cow3" method="_on_lasso"]

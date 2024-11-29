@@ -2,6 +2,7 @@ extends Node2D
 
 var all_cowboys = []
 var current_cowboy_index = 0
+var is_switching: bool = false
 
 
 
@@ -9,6 +10,7 @@ func _ready():
 	# Delay populate call until the scene tree is ready
 	await(get_tree().process_frame)
 	populate_all_cowboys()
+	activate_cowboy(current_cowboy_index)
 
 
 func populate_all_cowboys():
@@ -20,8 +22,13 @@ func populate_all_cowboys():
 
 func get_next_cowboy():
 	current_cowboy_index = (current_cowboy_index + 1) % all_cowboys.size()
-	print("current index inside get_next_cowboy",current_cowboy_index)
-	return all_cowboys[current_cowboy_index]
+	print("current index inside get_next_cowboy: ",current_cowboy_index)
+	activate_cowboy(current_cowboy_index)
+
+func activate_cowboy(index):
+	for cowboy in all_cowboys:
+		cowboy.active = false
+	all_cowboys[index].active = true
 
 func get_current_cowboy():
 	return all_cowboys[current_cowboy_index]

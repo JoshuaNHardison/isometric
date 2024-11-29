@@ -9,6 +9,7 @@ signal looser
 signal mountToggle
 
 @onready var horse = $"../horse"
+@onready var active: bool = false
 
 @export var max_speed: float = 300.0
 @export var min_speed: float = 0.0
@@ -54,6 +55,8 @@ var anim_directions = {
 }
 
 func _physics_process(delta):
+	if not active:
+		return
 	if Input.is_action_just_pressed("mount_toggle"):
 		if isMounted:
 			on_dismount()
@@ -114,35 +117,42 @@ func update_animation(anim_set):
 
 
 func _input(event: InputEvent):
-	if event is InputEventKey and event.keycode == KEY_C and event.pressed:
-		emit_signal("lasso")
-		$Label.text = "lasso"
-		await get_tree().create_timer(1.0).timeout
-		$Label.text = ""
-	if event is InputEventKey and event.keycode == KEY_Z and event.pressed:
-		emit_signal("tighter")
-		$Label.text = "tighter"
-		await get_tree().create_timer(1.0).timeout
-		$Label.text = ""
-	if event is InputEventKey and event.keycode == KEY_X and event.pressed:
-		emit_signal("looser")
-		$Label.text = "looser"
-		await get_tree().create_timer(1.0).timeout
-		$Label.text = ""
-	if event is InputEventKey and event.keycode == KEY_Q and event.pressed:
-		swap_cowboy()
+	if not active:
+		return
+	else:
+		if event is InputEventKey and event.keycode == KEY_C and event.pressed:
+			emit_signal("lasso")
+			$Label.text = "lasso"
+			await get_tree().create_timer(1.0).timeout
+			$Label.text = ""
+		if event is InputEventKey and event.keycode == KEY_Z and event.pressed:
+			emit_signal("tighter")
+			$Label.text = "tighter"
+			await get_tree().create_timer(1.0).timeout
+			$Label.text = ""
+		if event is InputEventKey and event.keycode == KEY_X and event.pressed:
+			emit_signal("looser")
+			$Label.text = "looser"
+			await get_tree().create_timer(1.0).timeout
+			$Label.text = ""
+		if event is InputEventKey and event.keycode == KEY_Q and event.pressed:
+			swap_cowboy()
 
 func swap_cowboy():
-	var next_cowboy = CowboyManager.get_next_cowboy()
-	if next_cowboy == self:
-		return
-	self.set_process(false)
-	self.set_physics_process(false)
+	#var next_cowboy = CowboyManager.get_next_cowboy()
+	print("swap called")
+	CowboyManager.get_next_cowboy()
+	#if next_cowboy == self:
+		#return
+	#self.set_process(false)`
+	#self.set_physics_process(false)
+	#self.active = false
+	#
+	#next_cowboy.active = true
+	#next_cowboy.set_process(true)
+	#next_cowboy.set_physics_process(true)
 	
-	next_cowboy.set_process(true)
-	next_cowboy.set_physics_process(true)
-	
-	print("Swapped control to: ", next_cowboy.name)
+	#print("Swapped control to: ", next_cowboy.name)
 
 
 func on_mount(horse: Node):

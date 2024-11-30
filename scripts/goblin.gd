@@ -27,6 +27,7 @@ var momentum: float = 0.0 # Current momentum
 var target_direction = Vector2(1, 0)
 var last_direction = Vector2(1, 0)
 var current_direction
+var is_swapping = false
 
 
 
@@ -72,7 +73,7 @@ func _normal_movement(delta):
 	var motion = Vector2()
 	motion.x = Input.get_action_strength("move_right") - Input.get_action_strength("move_left")
 	motion.y = Input.get_action_strength("move_down") - Input.get_action_strength("move_up")
-	motion.y /= 2  # Example of dampened vertical movement
+	motion.y /= 2 
 	motion = motion.normalized() * current_speed
 	set_velocity(motion)
 	move_and_slide()
@@ -117,7 +118,7 @@ func update_animation(anim_set):
 
 
 func _input(event: InputEvent):
-	if not active:
+	if not active or is_swapping:
 		return
 	else:
 		if event is InputEventKey and event.keycode == KEY_C and event.pressed:
@@ -136,23 +137,27 @@ func _input(event: InputEvent):
 			await get_tree().create_timer(1.0).timeout
 			$Label.text = ""
 		if event is InputEventKey and event.keycode == KEY_Q and event.pressed:
+			is_swapping = true
 			swap_cowboy()
+			await get_tree().create_timer(1.0).timeout
 
 func swap_cowboy():
-	#var next_cowboy = CowboyManager.get_next_cowboy()
 	print("swap called")
-	CowboyManager.get_next_cowboy()
-	#if next_cowboy == self:
-		#return
-	#self.set_process(false)`
-	#self.set_physics_process(false)
-	#self.active = false
-	#
-	#next_cowboy.active = true
-	#next_cowboy.set_process(true)
-	#next_cowboy.set_physics_process(true)
+	var current_cowboy = CowboyManager.get_current_cowboy()
+	var next_cowboy = CowboyManager.get_next_cowboy()
+	if next_cowboy == current_cowboy:
+		print("Already at the same cowboy. Aborting swap.")
+		return
 	
-	#print("Swapped control to: ", next_cowboy.name)
+	
+	current_cowboy.set_process(false)
+	current_cowboy.set_physics_process(false)
+	current_cowboy.active = false
+	
+	next_cowboy.active = true
+	next_cowboy.set_process(true)
+	next_cowboy.set_physics_process(true)
+	is_swapping = false
 
 
 func on_mount(horse: Node):

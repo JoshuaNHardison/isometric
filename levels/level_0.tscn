@@ -88,7 +88,11 @@ position = Vector2(420, 906)
 
 [node name="Goblin3" parent="Walls" groups=["cowboys"] instance=ExtResource("3_goh56")]
 y_sort_enabled = true
-position = Vector2(165, 822)
+position = Vector2(511, 862)
+
+[node name="Goblin4" parent="Walls" groups=["cowboys"] instance=ExtResource("3_goh56")]
+y_sort_enabled = true
+position = Vector2(599, 815)
 
 [node name="bone_pile4" parent="." groups=["risks"] instance=ExtResource("6_flwew")]
 position = Vector2(-8.24988, 959.957)
@@ -186,5 +190,10 @@ surface_material_override/0 = SubResource("StandardMaterial3D_5c63n")
 [connection signal="lasso" from="Walls/Goblin3" to="Walls/Cow14" method="_on_lasso"]
 [connection signal="lasso" from="Walls/Goblin3" to="Walls/Cow15" method="_on_lasso"]
 [connection signal="lasso" from="Walls/Goblin3" to="Walls/Cow16" method="_on_lasso"]
+[connection signal="lasso" from="Walls/Goblin4" to="Walls/Cow12" method="_on_lasso"]
+[connection signal="lasso" from="Walls/Goblin4" to="Walls/Cow13" method="_on_lasso"]
+[connection signal="lasso" from="Walls/Goblin4" to="Walls/Cow14" method="_on_lasso"]
+[connection signal="lasso" from="Walls/Goblin4" to="Walls/Cow15" method="_on_lasso"]
+[connection signal="lasso" from="Walls/Goblin4" to="Walls/Cow16" method="_on_lasso"]
 
 [editable path="SubViewportContainer/SubViewport/frog"]

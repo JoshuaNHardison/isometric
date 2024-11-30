@@ -225,6 +225,7 @@ func behavior_player_push(delta):
 	return velocity
 
 
+
 #func (delta, entity_position):
 	#var distance_to_entity = position.distance_to(entity_position)  # Update this line
 	#var direction = (entity_position - position).normalized()

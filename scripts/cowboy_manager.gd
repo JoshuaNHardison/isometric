@@ -2,8 +2,6 @@ extends Node2D
 
 var all_cowboys = []
 var current_cowboy_index = 0
-var is_switching: bool = false
-
 
 
 func _ready():
@@ -21,14 +19,22 @@ func populate_all_cowboys():
 	print("Cowboys found: ", all_cowboys.size())
 
 func get_next_cowboy():
-	current_cowboy_index = (current_cowboy_index + 1) % all_cowboys.size()
-	print("current index inside get_next_cowboy: ",current_cowboy_index)
-	activate_cowboy(current_cowboy_index)
+	print("Current Index (Before Swap): ", current_cowboy_index)
+	if current_cowboy_index == all_cowboys.size() - 1:
+		current_cowboy_index = 0
+		print("Reached end of list. Wrapping to start.")
+	else:
+		current_cowboy_index += 1
+	#activate_cowboy(current_cowboy_index)
+	print("Current Index (After Swap): ", current_cowboy_index)
+	print("Current cowboy: ", all_cowboys[current_cowboy_index].name)
+	return all_cowboys[current_cowboy_index]
 
 func activate_cowboy(index):
 	for cowboy in all_cowboys:
 		cowboy.active = false
 	all_cowboys[index].active = true
+	print("activated cowboy: ", all_cowboys[index])
 
 func get_current_cowboy():
 	return all_cowboys[current_cowboy_index]

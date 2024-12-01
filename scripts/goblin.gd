@@ -118,7 +118,7 @@ func update_animation(anim_set):
 
 
 func _input(event: InputEvent):
-	if not active or is_swapping:
+	if not active:
 		return
 	else:
 		if event is InputEventKey and event.keycode == KEY_C and event.pressed:
@@ -143,22 +143,8 @@ func _input(event: InputEvent):
 
 func swap_cowboy():
 	print("swap called")
-	var current_cowboy = CowboyManager.get_current_cowboy()
-	var next_cowboy = CowboyManager.get_next_cowboy()
-	if next_cowboy == current_cowboy:
-		print("Already at the same cowboy. Aborting swap.")
-		return
-	
-	
-	current_cowboy.set_process(false)
-	current_cowboy.set_physics_process(false)
-	current_cowboy.active = false
-	
-	next_cowboy.active = true
-	next_cowboy.set_process(true)
-	next_cowboy.set_physics_process(true)
+	CowboyManager.activate_next_cowboy(CowboyManager.current_cowboy_index)
 	is_swapping = false
-
 
 func on_mount(horse: Node):
 	isMounted = true

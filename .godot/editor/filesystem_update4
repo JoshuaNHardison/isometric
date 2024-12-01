@@ -1,9 +1,7 @@
 res://levels/level_0.tscn
 res://tileset/tileset.tres
-res://scripts/Cow.gd
 res://scenes/cow.tscn
 res://scenes/horse.tscn
 res://scenes/goblin.tscn
 res://levels/level_test.tscn
 res://scripts/cowboy_manager.gd
-res://scripts/goblin.gd

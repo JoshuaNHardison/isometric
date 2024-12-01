@@ -44,10 +44,6 @@ tile_set = ExtResource("1_i3vpv")
 format = 2
 layer_0/y_sort_enabled = true
 
-[node name="Goblin" parent="Walls" groups=["cowboys"] instance=ExtResource("3_goh56")]
-y_sort_enabled = true
-position = Vector2(266, 981)
-
 [node name="Cow12" parent="Walls" groups=["boids"] instance=ExtResource("7_nnm0e")]
 y_sort_enabled = true
 position = Vector2(494, 738)
@@ -81,6 +77,10 @@ position = Vector2(288, 886)
 visible = false
 y_sort_enabled = true
 position = Vector2(902, 895)
+
+[node name="Goblin" parent="Walls" groups=["cowboys"] instance=ExtResource("3_goh56")]
+y_sort_enabled = true
+position = Vector2(266, 981)
 
 [node name="Goblin2" parent="Walls" groups=["cowboys"] instance=ExtResource("3_goh56")]
 y_sort_enabled = true

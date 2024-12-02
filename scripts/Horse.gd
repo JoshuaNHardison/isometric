@@ -21,11 +21,11 @@ func _physics_process(delta):
 	distance_to_player = calculate_distance_to(player)
 	if distance_to_player < mount_distance:
 		#activate ability to mount
-		if Input.is_action_just_pressed("mount") and not isPlayerMounted:
+		if Input.is_action_just_pressed("mount_toggle") and not isPlayerMounted:
 			isPlayerMounted = true
 			player.call("on_mount", self)  # Hide the player if mounted
 			print("Player has mounted the horse!")
-	if isPlayerMounted and Input.is_action_just_pressed("dismount"):
+	if isPlayerMounted and Input.is_action_just_pressed("mount_toggle"):
 		isPlayerMounted = false
 		player.call("on_dismount")
 		print("The player has dismounted the horse.")

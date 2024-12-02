@@ -4,4 +4,5 @@ res://scenes/cow.tscn
 res://scenes/horse.tscn
 res://scenes/goblin.tscn
 res://levels/level_test.tscn
+res://scripts/goblin.gd
 res://scripts/cowboy_manager.gd

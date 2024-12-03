@@ -25,7 +25,7 @@ class_name Cow
 @onready var raycast = $RayCast2D
 @onready var collisionBox: CollisionShape2D = $CollisionShape2D
 @onready var herdArea: Area2D = $herdArea
-@onready var players_group = "cowboys" 
+@onready var cowboys_group = "cowboys"
 @onready var player = $"../Goblin"
 @onready var dog = $"../Dog"
 @onready var players = [player, dog]
@@ -42,7 +42,7 @@ var dog_position
 var target_position
 var distance_to_player
 var distance_to_dog
-
+var push_velocity
 
 
 
@@ -86,6 +86,8 @@ func get_closest_cows(reference_node: Node2D, num_cows: int, max_distance: int) 
 
 
 func calculate_distance_to(target: Node2D) -> float:
+	var distance = global_position.distance_to(target.global_position)
+	print("Distance to ", target.name, ": ", distance, " From: ", self.name)
 	return global_position.distance_to(target.global_position)
 
 
@@ -93,10 +95,11 @@ func _physics_process(delta: float):
 	timer = Time.get_ticks_msec()
 	distance_to_player = calculate_distance_to(player)
 	updateHerdingStatus()
-	if isHerdingActive == true:
-		herd_behavior(delta)
-	elif lost_cow:
-		print("lost")
+	herd_behavior(delta)
+	#if isHerdingActive == true:
+		#herd_behavior(delta)
+	#elif lost_cow:
+		#print("lost")
 		#behavior_wander(delta)
 
 func updateHerdingStatus():
@@ -147,8 +150,6 @@ func herd_behavior(delta):
 	if player_push_velocities.size() > 0:
 		for vel in player_push_velocities:
 			player_push += vel
-		player_push /= player_push_velocities.size()  # Average the velocities
-
 	# Other behaviors
 	var neighbors = get_closest_cows(self, 2, boids_distance)
 	var cohesion = behavior_cohesion(delta)
@@ -172,7 +173,7 @@ func herd_behavior(delta):
 	var next_position = $NavigationAgent2D.get_next_path_position()
 	var desired_velocity = (next_position - global_position).normalized() * max_speed
 	velocity = velocity.lerp(desired_velocity, 0.1)
-
+	
 	# Ensure the cow moves at max speed if influenced
 	if velocity.length() < max_speed and target_velocity.length() > 0:
 		velocity = velocity.normalized() * max_speed
@@ -275,22 +276,24 @@ func _center_of_mass():
 
 func behavior_player_push(delta):
 	var velocities = []  # List to store velocities for each player
-
+	
 	# Iterate through all players in the group
-	for player in get_tree().get_nodes_in_group(players_group):
-		if not player.active:  # Skip inactive players
-			continue
+	for pushingCowboy in get_tree().get_nodes_in_group(cowboys_group):
 
-		var player_position = player.position
-		var distance_to_player = calculate_distance_to(player)
+		var player_position = pushingCowboy.position  # Use global position for accuracy
+		var distance_to_player = calculate_distance_to(pushingCowboy)
 		var direction = (player_position - position).normalized()
-
+		print("Distance to ", player.name, ": ", distance_to_player, " From: ", name)
 		# If too close to the player, calculate the push velocity
 		if distance_to_player <= avoid_distance:
-			var push_velocity = -direction * speed * player_push_strength
+			push_velocity = -direction * speed * player_push_strength
+			print("Pushing away from: ", pushingCowboy.name, " - Push Velocity: ", push_velocity)
 			velocities.append(push_velocity)
+		else:
+			print(pushingCowboy.name, " is outside avoid_distance.")
 
 	return velocities
+
 
 
 

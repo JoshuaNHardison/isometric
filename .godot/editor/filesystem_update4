@@ -1,5 +1,5 @@
 res://levels/level_0.tscn
 res://tileset/tileset.tres
-res://levels/level_test.tscn
 res://scripts/Cow.gd
-res://scripts/Horse.gd
+res://levels/level_test.tscn
+res://scenes/goblin.tscn

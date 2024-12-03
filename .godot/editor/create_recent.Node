@@ -1,5 +1,5 @@
-NavigationAgent2D
 CollisionShape2D
+NavigationAgent2D
 CharacterBody2D
 WorldEnvironment
 SubViewport
@@ -12,4 +12,3 @@ Camera2D
 RayCast2D
 Marker2D
 Area2D
-AnimatedSprite2D

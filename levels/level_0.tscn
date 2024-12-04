@@ -56,7 +56,7 @@ motion_mode = 1
 
 [node name="Cow14" parent="Walls" groups=["boids"] instance=ExtResource("7_nnm0e")]
 y_sort_enabled = true
-position = Vector2(-213, 450)
+position = Vector2(744, 666)
 motion_mode = 1
 
 [node name="Cow15" parent="Walls" groups=["boids"] instance=ExtResource("7_nnm0e")]

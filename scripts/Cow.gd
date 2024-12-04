@@ -86,8 +86,6 @@ func get_closest_cows(reference_node: Node2D, num_cows: int, max_distance: int) 
 
 
 func calculate_distance_to(target: Node2D) -> float:
-	var distance = global_position.distance_to(target.global_position)
-	print("Distance to ", target.name, ": ", distance, " From: ", self.name)
 	return global_position.distance_to(target.global_position)
 
 
@@ -111,7 +109,7 @@ func updateHerdingStatus():
 	return isHerdingActive
 #
 #func herd_behavior(delta):
-	#if players_group:
+	#if players:
 		#neighbors = get_closest_cows(self, 2, boids_distance)
 		#var player_push = behavior_player_push(delta)
 		#var cohesion = behavior_cohesion(delta)
@@ -144,12 +142,12 @@ func updateHerdingStatus():
 func herd_behavior(delta):
 	# Retrieve velocities for player push
 	var player_push_velocities = behavior_player_push(delta)
-
 	# Combine push velocities from all players
 	var player_push = Vector2.ZERO
 	if player_push_velocities.size() > 0:
 		for vel in player_push_velocities:
 			player_push += vel
+
 	# Other behaviors
 	var neighbors = get_closest_cows(self, 2, boids_distance)
 	var cohesion = behavior_cohesion(delta)
@@ -158,8 +156,8 @@ func herd_behavior(delta):
 
 	# Combine all behaviors
 	var target_velocity = player_push + cohesion + alignment + separation
-	if target_velocity.length() > max_speed:
-		target_velocity = target_velocity.normalized() * max_speed
+	#if target_velocity.length() > max_speed:
+		#target_velocity = target_velocity.normalized() * max_speed
 
 	# Navigate the cow
 	var path_target_position = global_position + target_velocity.normalized() * 300
@@ -214,10 +212,11 @@ func behavior_alignment(delta):
 func behavior_separation(delta):
 	var direction = Vector2.ZERO
 	for boid in neighbors:
+		print(boid)
 		var distance = (boid.global_position - global_position).length()
 		if distance <= separation_radius:
-			var ratio = clamp((boid.global_position - global_position).length() / separation_radius, 0.0, 1.0)
-			direction -= (boid.global_position - global_position).normalized() * (1 / ratio)
+			#var ratio = clamp((boid.global_position - global_position).length() / separation_radius, 0.0, 1.0)
+			direction -= (boid.global_position - global_position).normalized()
 	#return velocity as a variable named separation
 	var separation = direction.normalized() * speed * separation_strength
 	return separation
@@ -236,6 +235,7 @@ func behavior_cohesion(delta):
 		# Steer towards the center of mass
 		direction = (center_of_mass - global_position).normalized()
 	var cohesion = direction * speed * cohesion_strength
+	print(cohesion)
 	return cohesion #return 
 
 func _center_of_mass():
@@ -274,6 +274,7 @@ func _center_of_mass():
 		#velocity = -direction.normalized() * speed * player_push_strength
 	#return velocity
 
+
 func behavior_player_push(delta):
 	var velocities = []  # List to store velocities for each player
 	
@@ -283,17 +284,11 @@ func behavior_player_push(delta):
 		var player_position = pushingCowboy.position  # Use global position for accuracy
 		var distance_to_player = calculate_distance_to(pushingCowboy)
 		var direction = (player_position - position).normalized()
-		print("Distance to ", player.name, ": ", distance_to_player, " From: ", name)
 		# If too close to the player, calculate the push velocity
 		if distance_to_player <= avoid_distance:
 			push_velocity = -direction * speed * player_push_strength
-			print("Pushing away from: ", pushingCowboy.name, " - Push Velocity: ", push_velocity)
 			velocities.append(push_velocity)
-		else:
-			print(pushingCowboy.name, " is outside avoid_distance.")
-
 	return velocities
-
 
 
 

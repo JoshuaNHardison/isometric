@@ -7,7 +7,7 @@ class_name Cow
 @export var avoid_distance: float = 500.0  # Distance to start avoiding
 @export var boids_distance: float = 500.0
 @export var push_strength = 1
-@export var player_push_strength = 1
+@export var player_push_strength = 5
 @export var dog_push_strength = 1
 @export var separation_radius = 200
 @export var separation_strength = 5
@@ -43,7 +43,6 @@ var target_position
 var distance_to_player
 var distance_to_dog
 var push_velocity
-
 
 
 
@@ -100,6 +99,7 @@ func _physics_process(delta: float):
 		#print("lost")
 		#behavior_wander(delta)
 
+
 func updateHerdingStatus():
 	#get distance to player
 	if distance_to_player < 800:
@@ -107,7 +107,7 @@ func updateHerdingStatus():
 	else:
 		isHerdingActive = false
 	return isHerdingActive
-#
+
 #func herd_behavior(delta):
 	#if players:
 		#neighbors = get_closest_cows(self, 2, boids_distance)
@@ -139,6 +139,7 @@ func updateHerdingStatus():
 		#move_and_slide()
 		#raycast.rotation = velocity.angle()
 
+
 func herd_behavior(delta):
 	# Retrieve velocities for player push
 	var player_push_velocities = behavior_player_push(delta)
@@ -147,9 +148,10 @@ func herd_behavior(delta):
 	if player_push_velocities.size() > 0:
 		for vel in player_push_velocities:
 			player_push += vel
+	else: print("empty list")
 
 	# Other behaviors
-	var neighbors = get_closest_cows(self, 2, boids_distance)
+	neighbors = get_closest_cows(self, 2, boids_distance)
 	var cohesion = behavior_cohesion(delta)
 	var alignment = behavior_alignment(delta)
 	var separation = behavior_separation(delta)
@@ -171,7 +173,7 @@ func herd_behavior(delta):
 	var next_position = $NavigationAgent2D.get_next_path_position()
 	var desired_velocity = (next_position - global_position).normalized() * max_speed
 	velocity = velocity.lerp(desired_velocity, 0.1)
-	
+
 	# Ensure the cow moves at max speed if influenced
 	if velocity.length() < max_speed and target_velocity.length() > 0:
 		velocity = velocity.normalized() * max_speed
@@ -212,7 +214,6 @@ func behavior_alignment(delta):
 func behavior_separation(delta):
 	var direction = Vector2.ZERO
 	for boid in neighbors:
-		print(boid)
 		var distance = (boid.global_position - global_position).length()
 		if distance <= separation_radius:
 			#var ratio = clamp((boid.global_position - global_position).length() / separation_radius, 0.0, 1.0)
@@ -261,7 +262,7 @@ func _center_of_mass():
 		##return velocity
 	##else:
 		##return velocity
-##
+
 
 #func behavior_player_push(delta):
 	## Player and cow positions
@@ -291,7 +292,6 @@ func behavior_player_push(delta):
 	return velocities
 
 
-
 #func behavior_wander(delta):
 	##random radius and random angle
 	#distance_to_player = calculate_distance_to(player)
@@ -308,7 +308,6 @@ func behavior_player_push(delta):
 			#return velocity
 	#else:
 		#return velocity
-
 
 
 #func behavior_risk_aversion(delta):
@@ -434,8 +433,6 @@ func _step2_lasso():
 	#timer.start()
 #func _step3_lasso():
 	#separation_strength = original_separation_strength
-
-
 
 ##func _on_dog_bark():
 	##print("The dog barked! React accordingly.")

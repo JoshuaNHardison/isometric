@@ -24,12 +24,31 @@ func _input(event: InputEvent):
 		match_mount_status()
 		reset_speed()
 		switch_to_all_cowboys()
+	if event is InputEventKey and event.keycode == KEY_1 and event.pressed:
+		switch_to_specific_cowboy(0)
+	if event is InputEventKey and event.keycode == KEY_2 and event.pressed:
+		switch_to_specific_cowboy(1)
+	if event is InputEventKey and event.keycode == KEY_3 and event.pressed:
+		switch_to_specific_cowboy(2)
+	if event is InputEventKey and event.keycode == KEY_4 and event.pressed:
+		switch_to_specific_cowboy(3)
 
 func get_next_cowboy():
 	current_cowboy_index = (current_cowboy_index + 1) % all_cowboys.size()
 	return all_cowboys[current_cowboy_index]
 
+func get_specific_cowboy(index):
+	return all_cowboys[index]
+
 func activate_next_cowboy(index):
+	for cowboy in all_cowboys:
+		cowboy.deactivate()
+	all_cowboys[index].activate()
+
+func activate_specific_cowboy(index):
+	if index < 0 or index >= all_cowboys.size():
+		print("Error:: Invalid index: ", index)
+		return
 	for cowboy in all_cowboys:
 		cowboy.deactivate()
 	all_cowboys[index].activate()
@@ -37,6 +56,13 @@ func activate_next_cowboy(index):
 func switch_to_next_cowboy():
 	var next_cowboy = get_next_cowboy()
 	activate_next_cowboy(current_cowboy_index)
+
+func switch_to_specific_cowboy(index):
+	if index < 0 or index >= all_cowboys.size():
+		print("Invalid cowboy index: ", index)
+		return
+	current_cowboy_index = index
+	activate_specific_cowboy(index)
 
 func get_current_cowboy():
 	return all_cowboys[current_cowboy_index]

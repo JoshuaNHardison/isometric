@@ -148,7 +148,6 @@ func herd_behavior(delta):
 	if player_push_velocities.size() > 0:
 		for vel in player_push_velocities:
 			player_push += vel
-	else: print("empty list")
 
 	# Other behaviors
 	neighbors = get_closest_cows(self, 2, boids_distance)
@@ -236,7 +235,6 @@ func behavior_cohesion(delta):
 		# Steer towards the center of mass
 		direction = (center_of_mass - global_position).normalized()
 	var cohesion = direction * speed * cohesion_strength
-	print(cohesion)
 	return cohesion #return 
 
 func _center_of_mass():

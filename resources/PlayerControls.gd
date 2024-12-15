@@ -6,7 +6,9 @@ func handle_controls(player: Player, delta: float) -> void:
 		if player.isMounted:
 			player.on_dismount()
 		else:
-			player.on_mount(player.horse)
+			var distance_to_horse = player.distance_to_horse(player.horse)
+			if distance_to_horse < 100:
+				player.on_mount(player.horse)
 	
 	if player.isMounted:
 		_horse_movement(player, delta)

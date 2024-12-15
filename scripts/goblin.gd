@@ -8,8 +8,11 @@ signal tighter
 signal looser
 signal mountToggle
 
+
 @onready var horse = $"../horse"
 @onready var active: bool = false
+signal mounted(horse)
+signal dismounted(horse)
 
 @export var max_speed: float = 300.0
 @export var min_speed: float = 0.0
@@ -72,11 +75,13 @@ func update_animation(anim_set):
 func on_mount(horse: Node):
 	isMounted = true
 	current_speed = mounted_speed
+	emit_signal("mounted", horse)
 	print("Mounted the horse! Speed increased.")
 
 func on_dismount():
 	isMounted = false
 	current_speed = base_speed
+	emit_signal("dismounted", horse)
 	print("Dismounted the horse! Speed reset.")
 
 func activate():
@@ -111,3 +116,7 @@ func _input(event: InputEvent):
 			$Label.text = "looser"
 			await get_tree().create_timer(1.0).timeout
 			$Label.text = ""
+
+func distance_to_horse(horseNode):
+	return int((self.global_position - horseNode.global_position).length())
+

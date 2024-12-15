@@ -9,29 +9,23 @@ class_name Horse
 @onready var player = $"../Goblin"
 @onready var isPlayerMounted:bool = false
 
-
 var distance_to_player
 
 
 func _ready():
 	motion_mode = CharacterBody2D.MOTION_MODE_FLOATING
+	if player:
+		player.connect("mounted", _on_player_mounted)
+		player.connect("dismounted", _on_player_dismounted)
 
 
 func _physics_process(delta):
-	distance_to_player = calculate_distance_to(player)
-	if distance_to_player < mount_distance:
-		#activate ability to mount
-		if Input.is_action_just_pressed("mount_toggle") and not isPlayerMounted:
-			isPlayerMounted = true
-			player.call("on_mount", self)  # Hide the player if mounted
-			print("Player has mounted the horse!")
-	if isPlayerMounted and Input.is_action_just_pressed("mount_toggle"):
-		isPlayerMounted = false
-		player.call("on_dismount")
-		print("The player has dismounted the horse.")
+	if isPlayerMounted:
+		global_position = player.global_position
+	print(global_position)
 
+func _on_player_mounted(player_instance):
+	isPlayerMounted = true
 
-func calculate_distance_to(target: Node2D) -> float:
-	return global_position.distance_to(target.global_position)
-
-
+func _on_player_dismounted(player_instance):
+	isPlayerMounted = false

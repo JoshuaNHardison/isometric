@@ -8,6 +8,7 @@ class_name Horse
 
 @onready var player = $"../Goblin"
 @onready var isPlayerMounted:bool = false
+@onready var collision_shape = $CollisionShape2D
 
 var distance_to_player
 
@@ -21,8 +22,10 @@ func _ready():
 
 func _physics_process(delta):
 	if isPlayerMounted:
+		collision_shape.disabled = true
 		global_position = player.global_position
-	print(global_position)
+	else:
+		collision_shape.disabled = false
 
 func _on_player_mounted(player_instance):
 	isPlayerMounted = true

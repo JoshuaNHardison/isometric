@@ -2,6 +2,5 @@ res://levels/level_0.tscn
 res://tileset/tileset.tres
 res://levels/level_test.tscn
 res://scenes/goblin.tscn
+res://scripts/Camera2D.gd
 res://scripts/cowboy_manager.gd
-res://scripts/Horse.gd
-res://scenes/horse.tscn

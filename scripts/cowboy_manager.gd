@@ -2,12 +2,25 @@ extends Node2D
 
 var all_cowboys = []
 var current_cowboy_index = 0
+var current_cowboy
+
+@onready var camera: Camera2D = $Camera2D
 
 func _ready():
 	# Delay populate call until the scene tree is ready
 	await get_tree().process_frame
 	populate_all_cowboys()
+	var scene = get_tree().current_scene
+	camera = scene.get_child(0)
 	activate_next_cowboy(current_cowboy_index)
+	print("camera: ", camera)
+
+
+func _physics_process(delta):
+	await get_tree().process_frame
+	if current_cowboy.active:
+		camera.position = current_cowboy.global_position
+
 
 func populate_all_cowboys():
 	print("Populating all cowboys...")
@@ -44,6 +57,7 @@ func activate_next_cowboy(index):
 	for cowboy in all_cowboys:
 		cowboy.deactivate()
 	all_cowboys[index].activate()
+	current_cowboy = all_cowboys[index]
 
 func activate_specific_cowboy(index):
 	if index < 0 or index >= all_cowboys.size():
@@ -52,6 +66,7 @@ func activate_specific_cowboy(index):
 	for cowboy in all_cowboys:
 		cowboy.deactivate()
 	all_cowboys[index].activate()
+	current_cowboy = all_cowboys[index]
 
 func switch_to_next_cowboy():
 	var next_cowboy = get_next_cowboy()
@@ -63,6 +78,12 @@ func switch_to_specific_cowboy(index):
 		return
 	current_cowboy_index = index
 	activate_specific_cowboy(index)
+	
+	var selected_cowboy = all_cowboys[index]
+	if selected_cowboy:
+		# Find the camera node (assuming it's named "Camera2D")
+		if camera:
+			camera.handle_cowboy_change(selected_cowboy)
 
 func get_current_cowboy():
 	return all_cowboys[current_cowboy_index]

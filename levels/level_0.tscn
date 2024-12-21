@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://dv2cso2ski8ff"]
+[gd_scene load_steps=14 format=3 uid="uid://dv2cso2ski8ff"]
 
 [ext_resource type="TileSet" uid="uid://ceswxvl27cesm" path="res://tileset/tileset.tres" id="1_i3vpv"]
 [ext_resource type="PackedScene" uid="uid://ccn0ixs27fyki" path="res://scenes/dog.tscn" id="3_3apsh"]
@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://d0b7num7tygxh" path="res://blender/frog.blend" id="7_bsks5"]
 [ext_resource type="PackedScene" uid="uid://bewfnje1mnevg" path="res://scenes/cow.tscn" id="7_nnm0e"]
 [ext_resource type="Texture2D" uid="uid://cuuhmisnjynmi" path="res://blender/frog_UV_AO.png" id="8_7330d"]
+[ext_resource type="Script" path="res://scripts/Camera2D.gd" id="10_6cpux"]
 
 [sub_resource type="Environment" id="Environment_t1vj3"]
 ambient_light_source = 3
@@ -27,6 +28,10 @@ point_size = 29.8
 [node name="level_0" type="Node2D"]
 position = Vector2(131, -56)
 metadata/_edit_horizontal_guides_ = [1202.0]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(1276, 856)
+script = ExtResource("10_6cpux")
 
 [node name="Floor" type="TileMap" parent="."]
 y_sort_enabled = true

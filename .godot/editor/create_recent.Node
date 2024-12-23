@@ -1,3 +1,5 @@
+Sprite2D
+TileMap
 CollisionShape2D
 NavigationAgent2D
 CharacterBody2D
@@ -5,10 +7,8 @@ WorldEnvironment
 SubViewport
 SubViewportContainer
 Node2D
-TileMap
 Label
 Timer
 Camera2D
 RayCast2D
 Marker2D
-Area2D

@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://7aq83v13kx3j"]
 
-[ext_resource type="Script" path="res://procGenTile.gd" id="1_ldart"]
+[ext_resource type="Script" path="res://scripts/procGenTile.gd" id="1_ldart"]
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_k21hk"]
 size = Vector2(128, 64)

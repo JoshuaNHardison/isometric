@@ -20,6 +20,8 @@ func _physics_process(delta):
 	await get_tree().process_frame
 	if current_cowboy.active:
 		camera.position = current_cowboy.global_position
+	else:
+		pass
 
 
 func populate_all_cowboys():

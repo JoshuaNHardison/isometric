@@ -1,0 +1,60 @@
+[gd_scene load_steps=8 format=3 uid="uid://c8og8iqm471d5"]
+
+[ext_resource type="Texture2D" uid="uid://djw34hrdqv6vb" path="res://MS-DOS - X-COM UFO Defense X-COM Enemy Unknown UFO Enemy Unknown - Scenery.png" id="1_wnv4x"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_rpwe8"]
+resource_name = "Sand - Bone"
+texture = ExtResource("1_wnv4x")
+margins = Vector2i(0, 2)
+separation = Vector2i(1, 0)
+texture_region_size = Vector2i(32, 15)
+14:2/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_dquvn"]
+resource_name = "Sand - Cactus"
+texture = ExtResource("1_wnv4x")
+margins = Vector2i(0, 2)
+separation = Vector2i(1, 0)
+texture_region_size = Vector2i(32, 15)
+15:2/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_dg5ib"]
+resource_name = "Sand - Bare"
+texture = ExtResource("1_wnv4x")
+margins = Vector2i(0, 2)
+separation = Vector2i(1, 0)
+texture_region_size = Vector2i(32, 15)
+8:2/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_68elg"]
+resource_name = "Sand - Skull 0"
+texture = ExtResource("1_wnv4x")
+margins = Vector2i(0, 2)
+separation = Vector2i(1, 0)
+texture_region_size = Vector2i(32, 15)
+11:2/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_gsrgp"]
+resource_name = "Sand - Skull 1"
+texture = ExtResource("1_wnv4x")
+margins = Vector2i(0, 2)
+separation = Vector2i(1, 0)
+texture_region_size = Vector2i(32, 15)
+9:2/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_c6i3k"]
+tile_shape = 1
+tile_size = Vector2i(32, 15)
+sources/2 = SubResource("TileSetAtlasSource_rpwe8")
+sources/3 = SubResource("TileSetAtlasSource_dquvn")
+sources/4 = SubResource("TileSetAtlasSource_dg5ib")
+sources/7 = SubResource("TileSetAtlasSource_68elg")
+sources/8 = SubResource("TileSetAtlasSource_gsrgp")
+
+[node name="X-COM - Sand Ground" type="TileMap"]
+y_sort_enabled = true
+tile_set = SubResource("TileSet_c6i3k")
+format = 2
+layer_0/name = "Ground"
+layer_0/y_sort_enabled = true
+layer_0/tile_data = PackedInt32Array(0, 983043, 2, 65536, 524292, 2, 1, 983043, 2, -65536, 524292, 2, 65537, 524292, 2, 131071, 524292, 2, 131072, 524292, 2, 196608, 524292, 2, 131073, 524292, 2, 196609, 524292, 2, 262145, 524292, 2, 131074, 524292, 2, 65538, 524292, 2, 2, 524292, 2, -65535, 524292, 2, -131071, 524292, 2, -196608, 524292, 2, -131072, 524292, 2, -1, 524292, 2, 65535, 524292, 2, -2, 524292, 2, -65537, 917506, 2, -131073, 524292, 2, -262144, 524292, 2, -262145, 524292, 2, -196609, 524292, 2, -131074, 720903, 2, -65538, 524292, 2, -3, 524292, 2, 65534, 524292, 2, 131070, 524292, 2, 196607, 524292, 2, 262144, 524292, 2, 262143, 524292, 2, 327680, 524292, 2, 65533, 524292, 2, 131069, 524292, 2, 196606, 524292, 2, 327679, 524292, 2, 393215, 524292, 2, 393216, 524292, 2, 262142, 524292, 2, 131068, 524292, 2, 196605, 524292, 2, 262141, 524292, 2, 327678, 524292, 2, 393214, 524292, 2, 458751, 524292, 2, 524287, 524292, 2, 65532, 524292, 2, -4, 524292, 2, -65539, 524292, 2, -327681, 524292, 2, -262146, 524292, 2, -196610, 524292, 2, -131075, 524292, 2, -393217, 524292, 2, -393216, 524292, 2, -327680, 524292, 2, -262143, 524292, 2, -196607, 524292, 2, -131070, 524292, 2, -65534, 524292, 2, 3, 524292, 2)

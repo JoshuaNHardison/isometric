@@ -60,7 +60,7 @@ target_position = Vector2(800, 0)
 script = ExtResource("8_c103j")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-scale = Vector2(0.75, 0.75)
+scale = Vector2(0.065, 0.065)
 sprite_frames = SubResource("SpriteFrames_hdlxw")
 animation = &"swim"
 frame = 1

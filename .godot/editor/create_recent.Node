@@ -1,12 +1,13 @@
-Sprite2D
+AnimatedSprite2D
 TileMap
+Node2D
+Sprite2D
 CollisionShape2D
 NavigationAgent2D
 CharacterBody2D
 WorldEnvironment
 SubViewport
 SubViewportContainer
-Node2D
 Label
 Timer
 Camera2D

@@ -1,9 +1,6 @@
-res://tileset/tileset.tres
-res://procGenTile.gd
-res://scripts/world.gd
 res://levels/level_0.tscn
-res://levels/level_test.tscn
+res://tileset/tileset.tres
+res://levels/proc_gen_level.tscn
+res://scenes/placeholder tiles/X-COM - Sand Ground.tscn
+res://scenes/placeholder tiles/X-COM - Sand Items.tscn
 res://scenes/goblin.tscn
-res://scenes/world.tscn
-res://scenes/procgen/world.tscn
-res://scenes/procgen/proc_gen_tile.tscn

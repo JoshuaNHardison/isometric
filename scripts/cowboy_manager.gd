@@ -15,6 +15,8 @@ func _ready():
 	activate_next_cowboy(current_cowboy_index)
 	print("camera: ", camera)
 
+#calculate the center of mass then rotate the cowboys based on that
+
 
 func _physics_process(delta):
 	await get_tree().process_frame

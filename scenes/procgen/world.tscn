@@ -20,3 +20,4 @@ tile = ExtResource("2_3kdag")
 z_index = 3
 
 [node name="procGenTile" parent="." instance=ExtResource("2_3kdag")]
+scale = Vector2(10, 10)

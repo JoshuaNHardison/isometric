@@ -1,6 +1,8 @@
-res://scenes/goblin.tscn
-res://tileset/tileset.tres
 res://levels/level_0.tscn
+res://tileset/tileset.tres
 res://levels/proc_gen_level.tscn
 res://scenes/placeholder tiles/X-COM - Sand Ground.tscn
 res://scenes/placeholder tiles/X-COM - Sand Items.tscn
+res://scenes/goblin.tscn
+res://scenes/procgen/world.tscn
+res://scripts/cowboy_manager.gd

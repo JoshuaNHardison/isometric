@@ -156,7 +156,7 @@ func herd_behavior(delta):
 	var separation = behavior_separation(delta)
 
 	# Combine all behaviors
-	var target_velocity = player_push + cohesion + alignment + separation
+	var target_velocity = player_push + cohesion + alignment + separation + player.velocity
 	#if target_velocity.length() > max_speed:
 		#target_velocity = target_velocity.normalized() * max_speed
 

@@ -1,6 +1,7 @@
 extends Node2D
 
 var all_cowboys = []
+var target_positions = []
 var current_cowboy_index = 0
 var current_cowboy
 
@@ -34,6 +35,10 @@ func populate_all_cowboys():
 	print("Cowboys found: ", all_cowboys.size())
 
 func _input(event: InputEvent):
+	if event is InputEventKey and event.keycode == KEY_K and event.pressed:
+		rotate_group(-PI / 160)
+	if event is InputEventKey and event.keycode == KEY_J and event.pressed:
+		rotate_group(PI / 160)
 	if event is InputEventKey and event.keycode == KEY_Q and event.pressed:
 		switch_to_next_cowboy()
 	if event is InputEventKey and event.keycode == KEY_F and event.pressed:
@@ -49,6 +54,32 @@ func _input(event: InputEvent):
 		switch_to_specific_cowboy(2)
 	if event is InputEventKey and event.keycode == KEY_4 and event.pressed:
 		switch_to_specific_cowboy(3)
+
+func get_group_center():
+	var total_position = Vector2.ZERO
+	for cowboy in all_cowboys:
+		total_position += cowboy.global_position
+	return total_position / all_cowboys.size()
+
+func rotate_group(angle_delta: float):
+	target_positions.clear()
+	var center = get_group_center()
+	for cowboy in all_cowboys:
+		var relative_position = cowboy.global_position - center
+		relative_position = relative_position.rotated(angle_delta)
+		target_positions.append(center + relative_position)
+	move_to_target_positions()
+
+func move_to_target_positions():
+	for i in range(all_cowboys.size()):
+		var cowboy = all_cowboys[i]
+		var target_position = target_positions[i]
+		var direction = (target_position - cowboy.global_position).normalized()
+		var distance = cowboy.global_position.distance_to(target_position)
+		if distance > 2:
+			cowboy.global_position += direction * cowboy.max_speed * get_process_delta_time()
+		else:
+			cowboy.global_position = target_position
 
 func get_next_cowboy():
 	current_cowboy_index = (current_cowboy_index + 1) % all_cowboys.size()
